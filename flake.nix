@@ -16,6 +16,7 @@
           gcc
           cmake
         ];
+        CMAKE_EXPORT_COMPILE_COMMANDS = 1;
       };
     });
 }
