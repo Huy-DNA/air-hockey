@@ -23,6 +23,7 @@ Ensure that the followings exist on your system:
 ```bash
 cmake .
 cmake --build .
+./out.o # Run the game
 ```
 
 ### Develop
@@ -37,3 +38,4 @@ cmake --build .
    cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 .
    cmake --build .
    ```
+3. Run the game: `./out.o`.
