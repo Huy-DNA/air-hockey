@@ -34,6 +34,6 @@ cmake --build .
    ```
    More intrusive changes require rerunning (or if the above command fails):
    ```bash
-   cmake .
+   cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 .
    cmake --build .
    ```
