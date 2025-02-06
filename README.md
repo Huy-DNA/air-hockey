@@ -1,4 +1,4 @@
-# <Game project 2>
+# Tiny football
 
 ## Environment setup
 
