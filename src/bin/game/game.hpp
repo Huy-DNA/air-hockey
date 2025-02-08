@@ -34,23 +34,23 @@ public:
     this->_icon = loadImage(BAT_BLUE_SPRITE_PATH);
     SDL_SetWindowIcon(this->_window, this->_icon);
 
-    SDL_Texture *_puck_texture = loadTexture(this->_renderer, PUCK_SPRITE_PATH);
-    SDL_Texture *_bat_blue_texture =
+    this->_puck_texture = loadTexture(this->_renderer, PUCK_SPRITE_PATH);
+    this->_bat_blue_texture =
         loadTexture(this->_renderer, BAT_BLUE_SPRITE_PATH);
-    SDL_Texture *_bat_red_texture =
+    this->_bat_red_texture =
         loadTexture(this->_renderer, BAT_RED_SPRITE_PATH);
-    SDL_Texture *_field_texture =
+    this->_field_texture =
         loadTexture(this->_renderer, FIELD_SPRITE_PATH);
   }
 
   ~Game() {
-    SDL_FreeSurface(this->_icon);
-    SDL_DestroyTexture(this->_puck_texture);
-    SDL_DestroyTexture(this->_field_texture);
-    SDL_DestroyTexture(this->_bat_red_texture);
-    SDL_DestroyTexture(this->_bat_blue_texture);
-    SDL_DestroyRenderer(this->_renderer);
-    SDL_DestroyWindow(this->_window);
+   SDL_FreeSurface(this->_icon);
+   SDL_DestroyTexture(this->_puck_texture);
+   SDL_DestroyTexture(this->_field_texture);
+   SDL_DestroyTexture(this->_bat_red_texture);
+   SDL_DestroyTexture(this->_bat_blue_texture);
+   SDL_DestroyRenderer(this->_renderer);
+   SDL_DestroyWindow(this->_window);
   }
 
   void start() {
