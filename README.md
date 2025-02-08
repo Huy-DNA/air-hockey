@@ -1,4 +1,4 @@
-# Tiny football
+# Air hockey
 
 ## Environment setup
 
