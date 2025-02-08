@@ -12,6 +12,9 @@
         packages = with pkgs; [
           neovim
           SDL2
+          SDL2_ttf
+          SDL2_image
+          SDL2_mixer
           ninja
           gcc
           cmake
