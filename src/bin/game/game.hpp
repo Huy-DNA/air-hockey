@@ -1,3 +1,4 @@
+#include "images.hpp"
 #include <SDL_events.h>
 #include <SDL_render.h>
 #include <SDL_surface.h>
@@ -16,16 +17,16 @@ public:
       printf("Window could not be created! Error: %s\n", SDL_GetError());
       exit(1);
     }
-    this->_surface = SDL_GetWindowSurface(this->_window);
-    SDL_FillRect(this->_surface, NULL,
-                 SDL_MapRGB(this->_surface->format, 0xFF, 0xFF, 0xFF));
-    SDL_UpdateWindowSurface(this->_window);
+    SDL_SetWindowIcon(this->_window, this->_icon);
 
     this->_renderer =
         SDL_CreateRenderer(this->_window, -1, SDL_RENDERER_ACCELERATED);
     if (this->_renderer == NULL) {
       printf("Renderer could not be created! Error: %s\n", SDL_GetError());
     }
+    SDL_SetRenderDrawColor(this->_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+    SDL_RenderClear(this->_renderer);
+    SDL_RenderPresent(this->_renderer);
   }
 
   ~Game() { SDL_DestroyWindow(this->_window); }
@@ -44,6 +45,6 @@ public:
 
 private:
   SDL_Window *_window;
-  SDL_Surface *_surface;
   SDL_Renderer *_renderer;
+  SDL_Surface *_icon = loadImage("../../../assets/bat-blue.png");
 };
