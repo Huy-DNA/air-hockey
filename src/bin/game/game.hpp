@@ -49,5 +49,5 @@ public:
 private:
   SDL_Window *_window;
   SDL_Renderer *_renderer;
-  SDL_Surface *_icon = loadImage(BAT_BLUE_SPRITE_DIR);
+  SDL_Surface *_icon = loadImage(BAT_BLUE_SPRITE_PATH);
 };

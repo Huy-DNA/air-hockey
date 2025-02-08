@@ -35,3 +35,12 @@ endif()
 target_link_libraries(
   AirHockey PRIVATE SDL2::SDL2 SDL2_mixer::SDL2_mixer SDL2_ttf::SDL2_ttf
                     SDL2_image::SDL2_image)
+set(ASSETS_SOURCE_DIR "${PROJECT_SOURCE_DIR}/assets")
+set(ASSETS_BINARY_DIR "${CMAKE_BINARY_DIR}/assets")
+add_custom_command(
+  TARGET AirHockey
+  POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_directory ${ASSETS_SOURCE_DIR}
+          ${ASSETS_BINARY_DIR}
+  COMMENT "Copying assets to build directory")
+target_compile_definitions(AirHockey PRIVATE ASSETS_PATH="${ASSETS_BINARY_DIR}")
