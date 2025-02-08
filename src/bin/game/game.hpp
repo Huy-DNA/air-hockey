@@ -1,8 +1,10 @@
 #pragma once
 
+#include "board.hpp"
 #include "constants.hpp"
-#include "images.hpp"
+#include "image.hpp"
 #include <SDL_events.h>
+#include <SDL_rect.h>
 #include <SDL_render.h>
 #include <SDL_surface.h>
 #include <SDL_video.h>
@@ -54,6 +56,8 @@ public:
   }
 
   void start() {
+    Board board = Board{this->_field_texture, createRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)};
+
     bool quit = false;
     while (!quit) {
       SDL_Event e;
@@ -62,6 +66,10 @@ public:
           quit = true;
         }
       }
+
+      SDL_RenderClear(this->_renderer);
+      board.draw(this->_renderer);
+      SDL_RenderPresent(this->_renderer);
     }
   }
 

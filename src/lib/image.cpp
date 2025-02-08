@@ -1,4 +1,4 @@
-#include "images.hpp"
+#include "image.hpp"
 #include <SDL_image.h>
 #include <SDL_render.h>
 
@@ -23,4 +23,13 @@ SDL_Texture *loadTexture(SDL_Renderer *renderer, const std::string path) {
   SDL_FreeSurface(loadedSurface);
 
   return newTexture;
+}
+
+SDL_Rect createRect(int x, int y, int w, int h) {
+  SDL_Rect rect;
+  rect.x = x;
+  rect.y = y;
+  rect.h = h;
+  rect.w = w;
+  return rect;
 }

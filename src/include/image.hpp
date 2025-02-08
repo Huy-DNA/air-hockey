@@ -5,3 +5,4 @@
 
 SDL_Surface *loadImage(const std::string path);
 SDL_Texture *loadTexture(SDL_Renderer *renderer, const std::string path);
+SDL_Rect createRect(int x, int y, int w, int h);
