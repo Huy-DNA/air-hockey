@@ -21,19 +21,18 @@ public:
       exit(1);
     }
 
-    SDL_Renderer *_renderer =
+    this->_renderer =
         SDL_CreateRenderer(this->_window, -1, SDL_RENDERER_ACCELERATED);
     if (this->_renderer == NULL) {
       printf("Renderer could not be created! Error: %s\n", SDL_GetError());
       exit(1);
     }
-
-    SDL_Surface *_icon = loadImage(BAT_BLUE_SPRITE_PATH);
-    SDL_SetWindowIcon(this->_window, this->_icon);
-
     SDL_SetRenderDrawColor(this->_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     SDL_RenderClear(this->_renderer);
     SDL_RenderPresent(this->_renderer);
+
+    this->_icon = loadImage(BAT_BLUE_SPRITE_PATH);
+    SDL_SetWindowIcon(this->_window, this->_icon);
 
     SDL_Texture *_puck_texture = loadTexture(this->_renderer, PUCK_SPRITE_PATH);
     SDL_Texture *_bat_blue_texture =
@@ -71,7 +70,6 @@ private:
   SDL_Renderer *_renderer;
   SDL_Surface *_icon;
 
-private:
   SDL_Texture *_puck_texture;
   SDL_Texture *_bat_blue_texture;
   SDL_Texture *_bat_red_texture;

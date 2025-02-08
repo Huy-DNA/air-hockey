@@ -9,7 +9,7 @@
 
 int main(int argc, const char *argv[]) {
   if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO) < 0 || TTF_Init() < 0 ||
-      IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) < 0 || Mix_Init(MIX_INIT_WAVPACK)) {
+      IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) < 0 || Mix_Init(MIX_INIT_MP3) < 0) {
     printf("SDL could not initialize! Error: %s\n", SDL_GetError());
     exit(1);
   } 
