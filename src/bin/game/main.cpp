@@ -52,9 +52,9 @@ int main(int argc, const char *argv[]) {
     /// Handle key events
     unsigned long long step = deltaMs / 2;
     if (keyStates.isTriggered(SDLK_a)) {
-      blueBat.moveX(-step, board.getX(), board.getX() + board.getWidth());
+      blueBat.moveX(-step, board.getX(), board.getX() + board.getWidth() / 2);
     } else if (keyStates.isTriggered(SDLK_d)) {
-      blueBat.moveX(step, board.getX(), board.getX() + board.getWidth());
+      blueBat.moveX(step, board.getX(), board.getX() + board.getWidth() / 2);
     }
 
     if (keyStates.isTriggered(SDLK_w)) {
@@ -64,9 +64,9 @@ int main(int argc, const char *argv[]) {
     }
 
     if (keyStates.isTriggered(SDLK_LEFT)) {
-      redBat.moveX(-step, board.getX(), board.getX() + board.getWidth());
+      redBat.moveX(-step, board.getX() + board.getWidth() / 2, board.getX() + board.getWidth());
     } else if (keyStates.isTriggered(SDLK_RIGHT)) {
-      redBat.moveX(step, board.getX(), board.getX() + board.getWidth());
+      redBat.moveX(step, board.getX() + board.getWidth() / 2, board.getX() + board.getWidth());
     }
 
     if (keyStates.isTriggered(SDLK_UP)) {
