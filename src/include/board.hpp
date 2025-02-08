@@ -22,4 +22,6 @@ public:
   int getBlueBatInitY() const;
   int getRedBatInitX() const;
   int getRedBatInitY() const;
+  int getPuckInitY() const;
+  int getPuckInitX() const;
 };

@@ -23,3 +23,5 @@ int Board::getBlueBatInitX() const { return rect.x + 11 * rect.w / 100; }
 int Board::getBlueBatInitY() const { return rect.y + rect.h / 2; }
 int Board::getRedBatInitX() const { return rect.x + 89 * rect.w / 100; }
 int Board::getRedBatInitY() const { return rect.y + rect.h / 2; }
+int Board::getPuckInitX() const { return rect.x + rect.w / 2; }
+int Board::getPuckInitY() const { return rect.y + rect.h / 2; }

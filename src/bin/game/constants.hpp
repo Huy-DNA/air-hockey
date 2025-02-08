@@ -11,6 +11,7 @@ constexpr int SCREEN_HEIGHT = 700;
 constexpr int FIELD_WIDTH = 1400;
 constexpr int FIELD_HEIGHT = 700;
 constexpr int BAT_SIZE = 100;
+constexpr int PUCK_SIZE = 80;
 
 SDL_Window *const WINDOW = createWindowOrFail(SCREEN_WIDTH, SCREEN_HEIGHT);
 SDL_Renderer *const RENDERER = createRendererFromWindowOrFail(WINDOW);

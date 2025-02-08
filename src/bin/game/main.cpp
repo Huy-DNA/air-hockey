@@ -2,6 +2,7 @@
 #include "board.hpp"
 #include "constants.hpp"
 #include "keystate.hpp"
+#include "puck.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
@@ -27,6 +28,7 @@ int main(int argc, const char *argv[]) {
                     board.getBlueBatInitY(), BAT_SIZE);
   Bat redBat = Bat(BAT_RED_TEXTURE, board.getRedBatInitX(),
                    board.getRedBatInitY(), BAT_SIZE);
+  Puck puck = Puck(PUCK_TEXTURE, board.getPuckInitX(), board.getPuckInitY(), PUCK_SIZE);
 
   bool quit = false;
   unsigned long long prevTicks = SDL_GetTicks64();
@@ -80,6 +82,7 @@ int main(int argc, const char *argv[]) {
     board.draw(RENDERER);
     blueBat.draw(RENDERER);
     redBat.draw(RENDERER);
+    puck.draw(RENDERER);
     SDL_RenderPresent(RENDERER);
 
     // Epilog
