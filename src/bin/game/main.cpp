@@ -50,21 +50,27 @@ int main(int argc, const char *argv[]) {
     /// Handle key events
     unsigned long long step = deltaMs;
     if (keyStates.isTriggered(SDLK_a)) {
-      blueBat.setX(blueBat.getX() - step);
-    } else if (keyStates.isTriggered(SDLK_s)) {
-      blueBat.setY(blueBat.getY() + step);
+      blueBat.moveX(-step, board.getX(), board.getX() + board.getWidth());
     } else if (keyStates.isTriggered(SDLK_d)) {
-      blueBat.setX(blueBat.getX() + step);
-    } else if (keyStates.isTriggered(SDLK_w)) {
-      blueBat.setY(blueBat.getY() - step);
-    } else if (keyStates.isTriggered(SDLK_LEFT)) {
-      redBat.setX(redBat.getX() - step);
-    } else if (keyStates.isTriggered(SDLK_DOWN)) {
-      redBat.setY(redBat.getY() + step);
+      blueBat.moveX(step, board.getX(), board.getX() + board.getWidth());
+    }
+
+    if (keyStates.isTriggered(SDLK_w)) {
+      blueBat.moveY(-step, board.getY(), board.getY() + board.getHeight());
+    } else if (keyStates.isTriggered(SDLK_s)) {
+      blueBat.moveY(step, board.getY(), board.getY() + board.getHeight());
+    }
+
+    if (keyStates.isTriggered(SDLK_LEFT)) {
+      redBat.moveX(-step, board.getX(), board.getX() + board.getWidth());
     } else if (keyStates.isTriggered(SDLK_RIGHT)) {
-      redBat.setX(redBat.getX() + step);
-    } else if (keyStates.isTriggered(SDLK_UP)) {
-      redBat.setY(redBat.getY() - step);
+      redBat.moveX(step, board.getX(), board.getX() + board.getWidth());
+    }
+
+    if (keyStates.isTriggered(SDLK_UP)) {
+      redBat.moveY(-step, board.getY(), board.getY() + board.getHeight());
+    } else if (keyStates.isTriggered(SDLK_DOWN)) {
+      redBat.moveY(step, board.getY(), board.getY() + board.getHeight());
     }
 
     // Render image

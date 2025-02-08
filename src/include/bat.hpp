@@ -1,4 +1,5 @@
 #pragma once
+
 #include <SDL_rect.h>
 #include <SDL_render.h>
 
@@ -16,4 +17,6 @@ public:
   void setX(int x);
   void setY(int y);
   void setSize(int size);
+  void moveX(int disp, int capLeft, int capRight);
+  void moveY(int disp, int capBottom, int capUp);
 };
