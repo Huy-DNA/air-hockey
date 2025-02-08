@@ -2,11 +2,18 @@
 #include <SDL_rect.h>
 #include <SDL_render.h>
 
-struct Bat {
+class Bat {
+private:
   SDL_Texture *const sprite;
   SDL_Rect rect;
+
+public:
+  Bat(SDL_Texture *sprite, int x, int y, int s);
+  void draw(SDL_Renderer *renderer) const;
+  int getX() const;
+  int getY() const;
+  int getSize() const;
+  void setX(int x);
+  void setY(int y);
+  void setSize(int size);
 };
-
-Bat createBat(SDL_Texture* sprite, SDL_Rect rect);
-
-void draw(const Bat& bat, SDL_Renderer *renderer);

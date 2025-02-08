@@ -5,8 +5,12 @@
 #include <SDL_surface.h>
 #include <string>
 
-extern constexpr int SCREEN_WIDTH = 1400;
-extern constexpr int SCREEN_HEIGHT = 700;
+constexpr int SCREEN_WIDTH = 1400;
+constexpr int SCREEN_HEIGHT = 700;
+
+constexpr int FIELD_WIDTH = 1400;
+constexpr int FIELD_HEIGHT = 700;
+constexpr int BAT_SIZE = 100;
 
 SDL_Window *const WINDOW = createWindowOrFail(SCREEN_WIDTH, SCREEN_HEIGHT);
 SDL_Renderer *const RENDERER = createRendererFromWindowOrFail(WINDOW);
