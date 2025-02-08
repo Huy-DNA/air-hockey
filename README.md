@@ -15,6 +15,9 @@ Ensure that the followings exist on your system:
   - `gnumake`
   - `g++`: supporting the C++17 standard
   - `SDL2`: [Guide](https://lazyfoo.net/tutorials/SDL/01_hello_SDL/index.php)
+  - `SDL2_ttf`: [Guide](https://lazyfoo.net/tutorials/SDL/06_extension_libraries_and_loading_other_image_formats/index.php)
+  - `SDL2_image`: [Guide](https://lazyfoo.net/tutorials/SDL/06_extension_libraries_and_loading_other_image_formats/index.php)
+  - `SDL2_mixer`: [Guide](https://lazyfoo.net/tutorials/SDL/06_extension_libraries_and_loading_other_image_formats/index.php)
 
 ## Workflows
 
