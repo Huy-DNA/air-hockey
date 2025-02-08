@@ -52,7 +52,7 @@ int main(int argc, const char *argv[]) {
     }
 
     /// Handle key events
-    unsigned long long step = deltaMs / 2;
+    unsigned long long step = deltaMs;
     if (keyStates.isTriggered(SDLK_a)) {
       blueBat.moveX(-step, board.getX(), board.getX() + board.getWidth() / 2);
     } else if (keyStates.isTriggered(SDLK_d)) {
