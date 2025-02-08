@@ -1,6 +1,7 @@
 #include "bat.hpp"
 #include "board.hpp"
 #include "constants.hpp"
+#include "keystate.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
@@ -32,43 +33,38 @@ int main(int argc, const char *argv[]) {
   while (!quit) {
     // Prolog
     unsigned long long curTicks = SDL_GetTicks64();
-    unsigned long long deltaMs = curTicks - prevTicks; 
+    unsigned long long deltaMs = curTicks - prevTicks;
 
     // Event handling
     SDL_Event e;
+    KeyState keyStates;
     while (SDL_PollEvent(&e)) {
       if (e.type == SDL_QUIT) {
         quit = true;
       } else if (e.type == SDL_KEYDOWN) {
-        const auto key = e.key.keysym.sym;
-        const unsigned int step = deltaMs;
-        switch (key) {
-          case SDLK_a:
-            blueBat.setX(blueBat.getX() - step);
-            break;
-          case SDLK_s:
-            blueBat.setY(blueBat.getY() + step);
-            break;
-          case SDLK_d:
-            blueBat.setX(blueBat.getX() + step);
-            break;
-          case SDLK_w:
-            blueBat.setY(blueBat.getY() - step);
-            break;
-          case SDLK_LEFT:
-            redBat.setX(blueBat.getX() - step);
-            break;
-          case SDLK_DOWN:
-            redBat.setY(blueBat.getY() + step);
-            break;
-          case SDLK_RIGHT:
-            redBat.setX(blueBat.getX() + step);
-            break;
-          case SDLK_UP:
-            redBat.setY(blueBat.getY() - step);
-            break;
-        }
+        // Collect key events
+        keyStates.set(e.key.keysym.sym);
       }
+    }
+
+    /// Handle key events
+    unsigned long long step = deltaMs;
+    if (keyStates.isTriggered(SDLK_a)) {
+      blueBat.setX(blueBat.getX() - step);
+    } else if (keyStates.isTriggered(SDLK_s)) {
+      blueBat.setY(blueBat.getY() + step);
+    } else if (keyStates.isTriggered(SDLK_d)) {
+      blueBat.setX(blueBat.getX() + step);
+    } else if (keyStates.isTriggered(SDLK_w)) {
+      blueBat.setY(blueBat.getY() - step);
+    } else if (keyStates.isTriggered(SDLK_LEFT)) {
+      redBat.setX(redBat.getX() - step);
+    } else if (keyStates.isTriggered(SDLK_DOWN)) {
+      redBat.setY(redBat.getY() + step);
+    } else if (keyStates.isTriggered(SDLK_RIGHT)) {
+      redBat.setX(redBat.getX() + step);
+    } else if (keyStates.isTriggered(SDLK_UP)) {
+      redBat.setY(redBat.getY() - step);
     }
 
     // Render image
@@ -79,7 +75,8 @@ int main(int argc, const char *argv[]) {
     SDL_RenderPresent(RENDERER);
 
     // Epilog
-    while (SDL_GetTicks64() - curTicks < 1000 / 60);
+    while (SDL_GetTicks64() - curTicks < 1000 / 60)
+      ;
     prevTicks = curTicks;
   }
 
