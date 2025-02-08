@@ -1,4 +1,5 @@
 #include "board.hpp"
+#include "bat.hpp"
 #include "constants.hpp"
 #include "sdl_utils.hpp"
 #include <SDL2/SDL.h>
@@ -18,11 +19,12 @@ int main(int argc, const char *argv[]) {
 
   SDL_SetWindowIcon(WINDOW, ICON_SURFACE);
 
-  Board board = Board::create(FIELD_TEXTURE,
-                              createRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT));
+  Board board =
+      createBoard(FIELD_TEXTURE, createRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT));
 
   bool quit = false;
   while (!quit) {
+    // Event handling
     SDL_Event e;
     while (SDL_PollEvent(&e)) {
       if (e.type == SDL_QUIT) {
@@ -30,8 +32,9 @@ int main(int argc, const char *argv[]) {
       }
     }
 
+    // Render image
     SDL_RenderClear(RENDERER);
-    board.draw(RENDERER);
+    draw(board, RENDERER);
     SDL_RenderPresent(RENDERER);
   }
 

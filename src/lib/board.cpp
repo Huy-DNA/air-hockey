@@ -2,10 +2,10 @@
 #include <SDL_rect.h>
 #include <SDL_render.h>
 
-Board Board::create(SDL_Texture *sprite, SDL_Rect rect) {
-  return Board{sprite, rect};
+void draw(const Board& board, SDL_Renderer *renderer) {
+  SDL_RenderCopy(renderer, board.sprite, NULL, &board.rect);
 }
 
-void Board::draw(SDL_Renderer *renderer) const {
-  SDL_RenderCopy(renderer, this->sprite, NULL, &this->rect);
+Board createBoard(SDL_Texture* sprite, SDL_Rect rect) {
+  return Board{sprite, rect};
 }

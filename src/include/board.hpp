@@ -5,6 +5,7 @@
 struct Board {
   SDL_Texture *const sprite;
   const SDL_Rect rect;
-  static Board create(SDL_Texture* sprite, SDL_Rect rect);
-  void draw(SDL_Renderer *renderer) const;
 };
+
+void draw(const Board& board, SDL_Renderer *renderer);
+Board createBoard(SDL_Texture* sprite, SDL_Rect rect);
