@@ -1,13 +1,15 @@
 #include "bat.hpp"
 #include "board.hpp"
 #include "constants.hpp"
-#include "sdl_utils.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_surface.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_video.h>
+#include <SDL_events.h>
+#include <SDL_keycode.h>
+#include <SDL_timer.h>
 #include <cstdio>
 
 int main(int argc, const char *argv[]) {
@@ -26,12 +28,46 @@ int main(int argc, const char *argv[]) {
                    board.getRedBatInitY(), BAT_SIZE);
 
   bool quit = false;
+  unsigned long long prevTicks = SDL_GetTicks64();
   while (!quit) {
+    // Prolog
+    unsigned long long curTicks = SDL_GetTicks64();
+    unsigned long long deltaMs = curTicks - prevTicks; 
+
     // Event handling
     SDL_Event e;
     while (SDL_PollEvent(&e)) {
       if (e.type == SDL_QUIT) {
         quit = true;
+      } else if (e.type == SDL_KEYDOWN) {
+        const auto key = e.key.keysym.sym;
+        const unsigned int step = deltaMs;
+        switch (key) {
+          case SDLK_a:
+            blueBat.setX(blueBat.getX() - step);
+            break;
+          case SDLK_s:
+            blueBat.setY(blueBat.getY() + step);
+            break;
+          case SDLK_d:
+            blueBat.setX(blueBat.getX() + step);
+            break;
+          case SDLK_w:
+            blueBat.setY(blueBat.getY() - step);
+            break;
+          case SDLK_LEFT:
+            redBat.setX(blueBat.getX() - step);
+            break;
+          case SDLK_DOWN:
+            redBat.setY(blueBat.getY() + step);
+            break;
+          case SDLK_RIGHT:
+            redBat.setX(blueBat.getX() + step);
+            break;
+          case SDLK_UP:
+            redBat.setY(blueBat.getY() - step);
+            break;
+        }
       }
     }
 
@@ -41,6 +77,10 @@ int main(int argc, const char *argv[]) {
     blueBat.draw(RENDERER);
     redBat.draw(RENDERER);
     SDL_RenderPresent(RENDERER);
+
+    // Epilog
+    while (SDL_GetTicks64() - curTicks < 1000 / 60);
+    prevTicks = curTicks;
   }
 
   IMG_Quit();
