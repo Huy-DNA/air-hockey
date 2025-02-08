@@ -1,3 +1,6 @@
+#pragma once
+
+#include "constants.hpp"
 #include "images.hpp"
 #include <SDL_events.h>
 #include <SDL_render.h>
@@ -46,5 +49,5 @@ public:
 private:
   SDL_Window *_window;
   SDL_Renderer *_renderer;
-  SDL_Surface *_icon = loadImage("../../../assets/bat-blue.png");
+  SDL_Surface *_icon = loadImage(BAT_BLUE_SPRITE_DIR);
 };
