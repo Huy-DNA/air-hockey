@@ -30,6 +30,7 @@ int main(int argc, const char *argv[]) {
 
   bool quit = false;
   unsigned long long prevTicks = SDL_GetTicks64();
+  KeyState keyStates;
   while (!quit) {
     // Prolog
     unsigned long long curTicks = SDL_GetTicks64();
@@ -37,18 +38,19 @@ int main(int argc, const char *argv[]) {
 
     // Event handling
     SDL_Event e;
-    KeyState keyStates;
     while (SDL_PollEvent(&e)) {
       if (e.type == SDL_QUIT) {
         quit = true;
       } else if (e.type == SDL_KEYDOWN) {
         // Collect key events
         keyStates.set(e.key.keysym.sym);
+      } else if (e.type == SDL_KEYUP) {
+        keyStates.reset(e.key.keysym.sym);
       }
     }
 
     /// Handle key events
-    unsigned long long step = deltaMs;
+    unsigned long long step = deltaMs / 2;
     if (keyStates.isTriggered(SDLK_a)) {
       blueBat.moveX(-step, board.getX(), board.getX() + board.getWidth());
     } else if (keyStates.isTriggered(SDLK_d)) {

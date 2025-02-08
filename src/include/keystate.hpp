@@ -7,6 +7,7 @@ private:
 public:
   KeyState() {};
   void set(unsigned int key) { this->triggeredKeys.insert(key); }
+  void reset(unsigned int key) { this->triggeredKeys.erase(key); }
   template <class... Types> bool isTriggered(unsigned int key, Types... keys) {
     if (!this->triggeredKeys.count(key)) {
       return false;
