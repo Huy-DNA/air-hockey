@@ -1,8 +1,9 @@
-#include "bat.hpp"
 #include "board.hpp"
 #include "constants.hpp"
 #include "keystate.hpp"
-#include "puck.hpp"
+#include "object/bat.hpp"
+#include "object/puck.hpp"
+#include "sprite.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
@@ -24,11 +25,11 @@ int main(int argc, const char *argv[]) {
   SDL_SetWindowIcon(WINDOW, ICON_SURFACE);
 
   Board board = Board(FIELD_TEXTURE, 0, 0, FIELD_WIDTH, FIELD_HEIGHT);
-  Bat blueBat = Bat(BAT_BLUE_TEXTURE, board.getBlueBatInitX(),
-                    board.getBlueBatInitY(), BAT_SIZE);
-  Bat redBat = Bat(BAT_RED_TEXTURE, board.getRedBatInitX(),
-                   board.getRedBatInitY(), BAT_SIZE);
-  Puck puck = Puck(PUCK_TEXTURE, board.getPuckInitX(), board.getPuckInitY(), PUCK_SIZE);
+
+  Bat blueBat = Bat(BAT_BLUE_SPRITE, board.getInitBlueBatPos(), BAT_SIZE);
+  Bat redBat = Bat(BAT_RED_SPRITE, board.getInitRedBatPos(), BAT_SIZE);
+
+  Puck puck = Puck(PUCK_SPRITE, board.getInitPuckPos(), PUCK_SIZE);
 
   bool quit = false;
   unsigned long long prevTicks = SDL_GetTicks64();
@@ -51,31 +52,42 @@ int main(int argc, const char *argv[]) {
       }
     }
 
-    /// Handle key events
+    // Update states
+    /// Set velocity
     unsigned long long step = deltaMs;
+    blueBat.setVelocity({0.0, 0.0});
     if (keyStates.isTriggered(SDLK_a)) {
-      blueBat.moveX(-step, board.getX(), board.getX() + board.getWidth() / 2);
-    } else if (keyStates.isTriggered(SDLK_d)) {
-      blueBat.moveX(step, board.getX(), board.getX() + board.getWidth() / 2);
+      blueBat.addVelocity({-1.0, 0.0});
     }
-
+    if (keyStates.isTriggered(SDLK_d)) {
+      blueBat.addVelocity({1.0, 0.0});
+    }
     if (keyStates.isTriggered(SDLK_w)) {
-      blueBat.moveY(-step, board.getY(), board.getY() + board.getHeight());
-    } else if (keyStates.isTriggered(SDLK_s)) {
-      blueBat.moveY(step, board.getY(), board.getY() + board.getHeight());
+      blueBat.addVelocity({0.0, -1.0});
     }
-
+    if (keyStates.isTriggered(SDLK_s)) {
+      blueBat.addVelocity({0.0, 1.0});
+    }
+    
+    redBat.setVelocity({0.0, 0.0});
     if (keyStates.isTriggered(SDLK_LEFT)) {
-      redBat.moveX(-step, board.getX() + board.getWidth() / 2, board.getX() + board.getWidth());
-    } else if (keyStates.isTriggered(SDLK_RIGHT)) {
-      redBat.moveX(step, board.getX() + board.getWidth() / 2, board.getX() + board.getWidth());
+      redBat.addVelocity({-1.0, 0.0});
+    }
+    if (keyStates.isTriggered(SDLK_RIGHT)) {
+      redBat.addVelocity({1.0, 0.0});
+    }
+    if (keyStates.isTriggered(SDLK_UP)) {
+      redBat.addVelocity({0.0, -1.0});
+    }
+    if (keyStates.isTriggered(SDLK_DOWN)) {
+      redBat.addVelocity({0.0, 1.0});
     }
 
-    if (keyStates.isTriggered(SDLK_UP)) {
-      redBat.moveY(-step, board.getY(), board.getY() + board.getHeight());
-    } else if (keyStates.isTriggered(SDLK_DOWN)) {
-      redBat.moveY(step, board.getY(), board.getY() + board.getHeight());
-    }
+    /// Set position
+    blueBat.move(deltaMs);
+    board.capBlueBatPosition(blueBat);
+    redBat.move(deltaMs);
+    board.capRedBatPosition(redBat);
 
     // Render image
     SDL_RenderClear(RENDERER);

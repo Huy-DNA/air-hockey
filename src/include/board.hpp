@@ -1,27 +1,17 @@
 #pragma once
-#include <SDL_rect.h>
-#include <SDL_render.h>
 
-class Board {
-private:
-  SDL_Texture *const sprite;
-  SDL_Rect rect;
+#include "box.hpp"
+#include "object/bat.hpp"
+#include "vector2d.hpp"
 
+class Board : public Box {
 public:
   Board(SDL_Texture *sprite, int x, int y, int w, int h);
-  void draw(SDL_Renderer *renderer) const;
-  int getWidth() const;
-  int getHeight() const;
-  int getX() const;
-  int getY() const;
-  void setX(int x);
-  void setY(int y);
-  void setWidth(int w);
-  void setHeight(int h);
-  int getBlueBatInitX() const;
-  int getBlueBatInitY() const;
-  int getRedBatInitX() const;
-  int getRedBatInitY() const;
-  int getPuckInitY() const;
-  int getPuckInitX() const;
+
+  Vector2d getInitBlueBatPos() const;
+  Vector2d getInitRedBatPos() const;
+  Vector2d getInitPuckPos() const;
+  void capPosition(Object&) const;
+  void capBlueBatPosition(Bat&) const;
+  void capRedBatPosition(Bat&) const;
 };

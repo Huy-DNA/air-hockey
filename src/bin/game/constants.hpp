@@ -1,6 +1,7 @@
 #pragma once
 
 #include "sdl_utils.hpp"
+#include "sprite.hpp"
 #include <SDL_render.h>
 #include <SDL_surface.h>
 #include <string>
@@ -10,8 +11,8 @@ constexpr int SCREEN_HEIGHT = 700;
 
 constexpr int FIELD_WIDTH = 1400;
 constexpr int FIELD_HEIGHT = 700;
-constexpr int BAT_SIZE = 100;
 constexpr int PUCK_SIZE = 80;
+constexpr int BAT_SIZE = 100;
 
 SDL_Window *const WINDOW = createWindowOrFail(SCREEN_WIDTH, SCREEN_HEIGHT);
 SDL_Renderer *const RENDERER = createRendererFromWindowOrFail(WINDOW);
@@ -34,3 +35,7 @@ SDL_Texture *const BAT_RED_TEXTURE =
     loadTexture(RENDERER, BAT_RED_SPRITE_PATH);
 SDL_Texture *const FIELD_TEXTURE =
     loadTexture(RENDERER, FIELD_SPRITE_PATH);
+
+const Sprite BAT_BLUE_SPRITE = Sprite(BAT_BLUE_TEXTURE, {BAT_SIZE / 2.0f, BAT_SIZE / 2.0f}, BAT_SIZE, BAT_SIZE);
+const Sprite BAT_RED_SPRITE = Sprite(BAT_RED_TEXTURE, {BAT_SIZE / 2.0f, BAT_SIZE / 2.0f}, BAT_SIZE, BAT_SIZE);
+const Sprite PUCK_SPRITE = Sprite(PUCK_TEXTURE, {PUCK_SIZE / 2.0f, PUCK_SIZE / 2.0f}, PUCK_SIZE, PUCK_SIZE);
