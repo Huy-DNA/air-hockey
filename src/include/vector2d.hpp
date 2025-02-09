@@ -9,4 +9,6 @@ struct Vector2d {
   Vector2d operator-() const;
   Vector2d operator*(const float) const;
   Vector2d operator/(const float) const;
+  Vector2d normalize() const;
+  float length() const;
 };

@@ -1,4 +1,5 @@
 #include "vector2d.hpp"
+#include <cmath>
 
 Vector2d Vector2d::operator+(const Vector2d &other) const {
   return Vector2d{
@@ -35,4 +36,13 @@ Vector2d Vector2d::operator/(const float c) const {
       this->x / c,
       this->y / c,
   };
+}
+
+Vector2d Vector2d::normalize() const {
+  const float length = this->length();
+  return *this / length;
+}
+
+float Vector2d::length() const {
+  return sqrt(this->x * this->x + this->y * this->y);
 }
