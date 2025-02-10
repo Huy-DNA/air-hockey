@@ -10,6 +10,19 @@ Puck::Puck(Sprite sprite, Vector2d pos, float radius)
 
 bool Puck::doesCollide(const Bat &bat) const { return bat.doesCollide(*this); }
 
+bool Puck::doesCollideLeft(const Board &board) const {
+  return this->getPosition().x - this->_radius <= board.getLeft();
+}
+bool Puck::doesCollideRight(const Board &board) const {
+  return this->getPosition().x + this->_radius >= board.getRight();
+}
+bool Puck::doesCollideUp(const Board &board) const {
+  return this->getPosition().y - this->_radius <= board.getUp();
+}
+bool Puck::doesCollideDown(const Board &board) const {
+  return this->getPosition().y + this->_radius >= board.getBottom();
+}
+
 void Puck::setVelocity(const Vector2d v) {
   this->Object::setVelocity(v.cap(1));
 }

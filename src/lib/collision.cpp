@@ -42,6 +42,28 @@ void reflectOffBat(Puck &puck, Bat &bat) {
   }
   Vector2d collisionPoint = bat.getCollisionPoint(puck);
   Vector2d norm = (collisionPoint - bat.getPosition()).normalize();
-  Vector2d reflectedVelocity = (puck.getVelocity() - bat.getVelocity()).reflect(norm) + bat.getVelocity();
+  Vector2d reflectedVelocity =
+      (puck.getVelocity() - bat.getVelocity()).reflect(norm) +
+      bat.getVelocity();
   puck.setVelocity(reflectedVelocity);
+}
+
+void reflectOffBoard(Puck &puck, Board &board) {
+  const Vector2d velocity = puck.getVelocity();
+  if (puck.doesCollideLeft(board)) {
+    Vector2d norm = Vector2d{1, 0};
+    puck.setVelocity(velocity.reflect(norm));
+  }
+  if (puck.doesCollideRight(board)) {
+    Vector2d norm = Vector2d{-1, 0};
+    puck.setVelocity(velocity.reflect(norm));
+  }
+  if (puck.doesCollideUp(board)) {
+    Vector2d norm = Vector2d{0, 1};
+    puck.setVelocity(velocity.reflect(norm));
+  }
+  if (puck.doesCollideDown(board)) {
+    Vector2d norm = Vector2d{0, -1};
+    puck.setVelocity(velocity.reflect(norm));
+  }
 }

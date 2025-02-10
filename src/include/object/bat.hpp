@@ -8,6 +8,7 @@
 #include <SDL_render.h>
 
 class Puck;
+class Board;
 
 class Bat : public Object {
 private:

@@ -96,6 +96,7 @@ int main(int argc, const char *argv[]) {
       /// Reflect
       reflectOffBat(puck, redBat);
       reflectOffBat(puck, blueBat);
+      reflectOffBoard(puck, board);
 
       /// Adjust all the pieces' positions slightly to a consistent state
       uncollide(redBat, blueBat, puck, board);
