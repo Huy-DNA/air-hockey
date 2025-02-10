@@ -87,20 +87,16 @@ int main(int argc, const char *argv[]) {
     redBat.move(deltaMs);
     puck.move(deltaMs);
 
-    /// Handle collision
-    if (blueBat.doesCollide(puck)) {
-      puck.addVelocity(blueBat.getVelocity());
-    }
-    if (redBat.doesCollide(puck)) {
-      puck.addVelocity(redBat.getVelocity());
-    }
-    puck.handleCollide(blueBat);
-    puck.handleCollide(redBat);
-
     /// Cap everything in the board
     board.capBlueBatPosition(blueBat);
     board.capRedBatPosition(redBat);
     board.capPuckPosition(puck);
+
+    /// Handle collide
+    puck.handleCollide(blueBat);
+    puck.handleCollide(redBat);
+    blueBat.handleCollide(puck);
+    redBat.handleCollide(puck);
 
     // Render image
     SDL_RenderClear(RENDERER);
