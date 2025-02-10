@@ -1,6 +1,5 @@
 #pragma once
 
-#include "box.hpp"
 #include "sprite.hpp"
 #include "vector2d.hpp"
 #include <SDL_rect.h>
@@ -17,7 +16,6 @@ private:
 public:
   Object(Sprite sprite, Vector2d position, Vector2d velocity);
 
-  virtual bool doesCollide(const Object &other) const = 0;
   void setPosition(const Vector2d pos);
   Vector2d getPosition() const;
   void setXPosition(const float x);

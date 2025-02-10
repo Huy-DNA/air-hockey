@@ -68,7 +68,7 @@ int main(int argc, const char *argv[]) {
     if (keyStates.isTriggered(SDLK_s)) {
       blueBat.addVelocity({0.0, 1.0});
     }
-    
+
     redBat.setVelocity({0.0, 0.0});
     if (keyStates.isTriggered(SDLK_LEFT)) {
       redBat.addVelocity({-1.0, 0.0});
