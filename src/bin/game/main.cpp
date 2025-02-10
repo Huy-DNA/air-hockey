@@ -98,9 +98,8 @@ int main(int argc, const char *argv[]) {
       board.capRedBatPosition(redBat);
       board.capPuckPosition(puck);
 
-      /// Handle collide
-      handleBlueBatCollision(blueBat, puck, board);
-      handleRedBatCollision(redBat, puck, board);
+      /// Handle collision
+      handleCollision(redBat, blueBat, puck, board);
     }
 
     // Render image

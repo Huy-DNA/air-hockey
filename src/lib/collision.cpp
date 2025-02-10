@@ -2,42 +2,37 @@
 #include "object/bat.hpp"
 #include "object/puck.hpp"
 
-void handleRedBatCollision(Bat &bat, Puck &puck, Board &board) {
-  if (bat.doesCollide(puck)) {
-    puck.addVelocity(bat.getVelocity());
+static void adjustBatAndPuck(Bat &bat, Puck &puck) {
+  if (!bat.doesCollide(puck)) {
+    return;
   }
 
-  for (int i = 0; i < 100 && bat.doesCollide(puck); ++i) {
-    const Vector2d distVec = puck.getPosition() - bat.getPosition();
+  const Vector2d distVec = puck.getPosition() - bat.getPosition();
 
-    const float dist = distVec.length();
-    const float sumRadius = bat.getSize() + puck.getSize();
-    const float diff = sumRadius - dist;
+  const float dist = distVec.length();
+  const float sumRadius = bat.getSize() + puck.getSize();
+  const float diff = sumRadius - dist;
 
-    bat.setPosition(bat.getPosition() - distVec.normalize() * diff / 30);
-    puck.setPosition(puck.getPosition() + distVec.normalize() * diff);
-
-    board.capPuckPosition(puck);
-    board.capRedBatPosition(bat);
-  }
+  bat.setPosition(bat.getPosition() - distVec.normalize() * diff / 30);
+  puck.setPosition(puck.getPosition() + distVec.normalize() * diff);
 }
 
-void handleBlueBatCollision(Bat &bat, Puck &puck, Board &board) {
-  if (bat.doesCollide(puck)) {
-    puck.addVelocity(bat.getVelocity());
+void handleCollision(Bat &redBat, Bat &blueBat, Puck &puck, Board &board) {
+  if (redBat.doesCollide(puck)) {
+    puck.addVelocity(redBat.getVelocity());
   }
+  if (blueBat.doesCollide(puck)) {
+    puck.addVelocity(blueBat.getVelocity());
+  }
+  for (int i = 0;
+       i < 100 && (redBat.doesCollide(puck) || blueBat.doesCollide(puck));
+       ++i) {
 
-  for (int i = 0; i < 100 && bat.doesCollide(puck); ++i) {
-    const Vector2d distVec = puck.getPosition() - bat.getPosition();
-
-    const float dist = distVec.length();
-    const float sumRadius = bat.getSize() + puck.getSize();
-    const float diff = sumRadius - dist;
-
-    bat.setPosition(bat.getPosition() - distVec.normalize() * diff / 30);
-    puck.setPosition(puck.getPosition() + distVec.normalize() * diff);
+    adjustBatAndPuck(redBat, puck);
+    adjustBatAndPuck(blueBat, puck);
 
     board.capPuckPosition(puck);
-    board.capBlueBatPosition(bat);
+    board.capRedBatPosition(redBat);
+    board.capBlueBatPosition(blueBat);
   }
 }
