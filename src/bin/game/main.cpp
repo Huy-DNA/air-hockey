@@ -84,14 +84,14 @@ int main(int argc, const char *argv[]) {
       redBat.addVelocity({0.0, 1.0});
     }
 
-    // Split the movement & collision over the time period (20 rounds)
+    // Split the movement & collision over the time period (50 rounds)
     // To prevent the phenomenon that deltaMs is too large, making the puck
     // penetrate through a colliding bat as the jump is too large
-    for (int i = 0; i < 8; ++i) {
+    for (int i = 0; i < 50; ++i) {
       /// Set position
-      blueBat.move(deltaMs / 8.0);
-      redBat.move(deltaMs / 8.0);
-      puck.move(deltaMs / 8.0);
+      blueBat.move(deltaMs / 50.0);
+      redBat.move(deltaMs / 50.0);
+      puck.move(deltaMs / 50.0);
 
       /// Reflect
       reflectOffBat(puck, redBat);

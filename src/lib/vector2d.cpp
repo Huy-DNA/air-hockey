@@ -51,6 +51,11 @@ float Vector2d::length() const {
   return sqrt(this->x * this->x + this->y * this->y);
 }
 
+Vector2d Vector2d::cap(float length) const {
+  if (this->length() <= length) return *this;
+  return this->normalize() * length;
+}
+
 Vector2d Vector2d::reflect(const Vector2d& norm) const {
   const Vector2d _norm = norm.normalize();
   Vector2d mappedThis = _norm * (*this * _norm);

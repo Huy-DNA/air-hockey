@@ -10,6 +10,10 @@ Puck::Puck(Sprite sprite, Vector2d pos, float radius)
 
 bool Puck::doesCollide(const Bat &bat) const { return bat.doesCollide(*this); }
 
+void Puck::setVelocity(const Vector2d v) {
+  this->Object::setVelocity(v.cap(1));
+}
+
 float Puck::getSize() const { return _radius; }
 
 Vector2d Puck::getCollisionPoint(const Bat &bat) const {

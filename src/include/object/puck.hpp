@@ -18,4 +18,5 @@ public:
   bool doesCollide(const Bat &) const;
   Vector2d getCollisionPoint(const Bat &) const;
   float getSize() const;
+  void setVelocity(const Vector2d v);
 };

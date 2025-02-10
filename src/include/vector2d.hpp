@@ -13,4 +13,5 @@ struct Vector2d {
   Vector2d normalize() const;
   float length() const;
   Vector2d reflect(const Vector2d&) const;
+  Vector2d cap(float length) const;
 };
