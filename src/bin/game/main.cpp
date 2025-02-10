@@ -53,7 +53,7 @@ int main(int argc, const char *argv[]) {
     }
 
     // Update states
-    /// Set velocity
+    /// Set velocity of bats
     unsigned long long step = deltaMs;
     blueBat.setVelocity({0.0, 0.0});
     if (keyStates.isTriggered(SDLK_a)) {
@@ -82,12 +82,25 @@ int main(int argc, const char *argv[]) {
     if (keyStates.isTriggered(SDLK_DOWN)) {
       redBat.addVelocity({0.0, 1.0});
     }
-
     /// Set position
     blueBat.move(deltaMs);
-    board.capBlueBatPosition(blueBat);
     redBat.move(deltaMs);
+    puck.move(deltaMs);
+
+    /// Handle collision
+    if (blueBat.doesCollide(puck)) {
+      puck.addVelocity(blueBat.getVelocity());
+    }
+    if (redBat.doesCollide(puck)) {
+      puck.addVelocity(redBat.getVelocity());
+    }
+    puck.handleCollide(blueBat);
+    puck.handleCollide(redBat);
+
+    /// Cap everything in the board
+    board.capBlueBatPosition(blueBat);
     board.capRedBatPosition(redBat);
+    board.capPuckPosition(puck);
 
     // Render image
     SDL_RenderClear(RENDERER);

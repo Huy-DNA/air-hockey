@@ -11,7 +11,7 @@ public:
   Vector2d getInitBlueBatPos() const;
   Vector2d getInitRedBatPos() const;
   Vector2d getInitPuckPos() const;
-  void capPosition(Object&) const;
   void capBlueBatPosition(Bat&) const;
   void capRedBatPosition(Bat&) const;
+  void capPuckPosition(Puck&) const;
 };

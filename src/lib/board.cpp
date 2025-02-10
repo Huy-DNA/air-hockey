@@ -18,17 +18,22 @@ Vector2d Board::getInitPuckPos() const {
   return Vector2d{this->_x + this->_w / 2.0f, this->_y + this->_h / 2.0f};
 }
 
-void Board::capPosition(Object &obj) const {
-  const Vector2d pos = obj.getPosition();
-  if (pos.x < this->_x) {
-    obj.setXPosition(this->_x);
-  } else if (pos.x > this->_x + this->_w) {
-    obj.setXPosition(this->_x + this->_w);
+void Board::capPuckPosition(Puck &puck) const {
+  const Vector2d pos = puck.getPosition();
+  float left = this->_x + puck.getSize();
+  float right = this->_x + this->_w - puck.getSize();
+  float bottom = this->_y + this->_h - puck.getSize();
+  float up = this->_y + puck.getSize();
+
+  if (pos.x < left) {
+    puck.setXPosition(left);
+  } else if (pos.x > right) {
+    puck.setXPosition(right);
   }
-  if (pos.y < this->_y) {
-    obj.setYPosition(this->_y);
-  } else if (pos.y > this->_y + this->_h) {
-    obj.setYPosition(this->_y + this->_h);
+  if (pos.y < up) {
+    puck.setYPosition(up);
+  } else if (pos.y > bottom) {
+    puck.setYPosition(bottom);
   }
 }
 
