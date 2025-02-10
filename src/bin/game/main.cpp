@@ -23,9 +23,8 @@ int main(int argc, const char *argv[]) {
   SDL_SetWindowIcon(WINDOW, ICON_SURFACE);
 
   KeyState keyStates;
+  Stat stat{0, 0};
   Match match;
-  unsigned int blueScore;
-  unsigned int redScore;
   GameState state = GameState::NO_MATCH;
   while (true) {
     // Event handling
@@ -49,13 +48,13 @@ int main(int argc, const char *argv[]) {
       break;
     }
     case GameState::IN_MATCH: {
-      const Match::Winner winner = match.step(keyStates);
+      const Match::Winner winner = match.step(stat, keyStates);
       if (winner == Match::Winner::RED) {
         state = GameState::NO_MATCH;
-        ++redScore;
+        ++stat.red;
       } else if (winner == Match::Winner::BLUE) {
         state = GameState::NO_MATCH;
-        ++blueScore;
+        ++stat.blue;
       }
       break;
     }

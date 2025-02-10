@@ -1,7 +1,8 @@
 #pragma once
 
-#include "collision.hpp"
+#include "state.hpp"
 #include "board.hpp"
+#include "collision.hpp"
 #include "constants.hpp"
 #include "keystate.hpp"
 #include "object/bat.hpp"
@@ -34,7 +35,7 @@ public:
     this->prevMs = SDL_GetTicks64();
   }
 
-  Winner step(const KeyState &keyStates) {
+  Winner step(Stat stat, const KeyState &keyStates) {
     unsigned long long curMs = SDL_GetTicks64();
     unsigned long long deltaMs = curMs - this->prevMs;
 
