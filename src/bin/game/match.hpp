@@ -1,5 +1,7 @@
 #pragma once
 
+#include "energy_bar.hpp"
+#include "sdl_utils.hpp"
 #include "state.hpp"
 #include "board.hpp"
 #include "collision.hpp"
@@ -19,10 +21,12 @@ public:
   };
 
 private:
-  Board board = Board(FIELD_TEXTURE, 0, 0, FIELD_WIDTH, FIELD_HEIGHT);
+  Board board = Board(FIELD_TEXTURE, 0, 100, FIELD_WIDTH, FIELD_HEIGHT);
   Bat blueBat = Bat(BAT_BLUE_SPRITE, board.getInitBlueBatPos(), BAT_SIZE / 2.0);
   Bat redBat = Bat(BAT_RED_SPRITE, board.getInitRedBatPos(), BAT_SIZE / 2.0);
   Puck puck = Puck(PUCK_SPRITE, board.getInitPuckPos(), PUCK_SIZE / 2.0);
+  EnergyBar blueBar = EnergyBar(createRect(10, SCREEN_HEIGHT - FIELD_HEIGHT - 75, SCREEN_WIDTH / 3, 50), createColor(0x00, 0x00, 0xFF, 0xFF));
+  EnergyBar redBar = EnergyBar(createRect(920, SCREEN_HEIGHT - FIELD_HEIGHT - 75, SCREEN_WIDTH / 3, 50), createColor(0xFF, 0x00, 0x00, 0xFF));
   unsigned long long prevMs = SDL_GetTicks64();
 
 public:
@@ -79,6 +83,14 @@ public:
       redBat.move(deltaMs / 50.0);
       puck.move(deltaMs / 50.0);
 
+      if (puck.doesCollide(blueBat)) {
+        blueBar.addPercent(0.1);
+      }
+
+      if (puck.doesCollide(redBat)) {
+        redBar.addPercent(0.1);
+      }
+
       if (board.doesPuckCollideWithBlueGoal(puck)) {
         return Winner::RED;
       }
@@ -97,11 +109,14 @@ public:
     }
 
     // Render image
+    SDL_SetRenderDrawColor(RENDERER, 0xFF, 0xFF, 0xFF, 0xFF);
     SDL_RenderClear(RENDERER);
     board.draw(RENDERER);
     blueBat.draw(RENDERER);
     redBat.draw(RENDERER);
     puck.draw(RENDERER);
+    redBar.draw(RENDERER);
+    blueBar.draw(RENDERER);
     SDL_RenderPresent(RENDERER);
 
     // Epilog

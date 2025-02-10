@@ -3,6 +3,7 @@
 #include "box.hpp"
 #include "object/bat.hpp"
 #include "vector2d.hpp"
+#include <SDL_rect.h>
 
 class Bat;
 class Puck;

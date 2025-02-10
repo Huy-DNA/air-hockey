@@ -1,5 +1,6 @@
 #include "sdl_utils.hpp"
 #include <SDL_image.h>
+#include <SDL_pixels.h>
 #include <SDL_rect.h>
 #include <SDL_render.h>
 #include <SDL_video.h>
@@ -34,6 +35,15 @@ SDL_Rect createRect(int x, int y, int w, int h) {
   rect.h = h;
   rect.w = w;
   return rect;
+}
+
+SDL_Color createColor(int r, int g, int b, int a) {
+  SDL_Color color;
+  color.r = r;
+  color.g = g;
+  color.b = b;
+  color.a = a;
+  return color;
 }
 
 SDL_Window *createWindowOrFail(int w, int h) {

@@ -7,7 +7,7 @@
 #include <string>
 
 constexpr int SCREEN_WIDTH = 1400;
-constexpr int SCREEN_HEIGHT = 700;
+constexpr int SCREEN_HEIGHT = 800;
 
 constexpr int FIELD_WIDTH = 1400;
 constexpr int FIELD_HEIGHT = 700;

@@ -1,5 +1,6 @@
 #include "board.hpp"
 #include "object.hpp"
+#include "sdl_utils.hpp"
 #include "vector2d.hpp"
 
 Board::Board(SDL_Texture *sprite, int x, int y, int w, int h)
