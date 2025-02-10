@@ -2,6 +2,7 @@
 #include "vector2d.hpp"
 #include <SDL_rect.h>
 #include <SDL_render.h>
+#include <cmath>
 #include <cstdio>
 
 Object::Object(Sprite sprite, Vector2d position, Vector2d velocity,
@@ -23,7 +24,7 @@ void Object::addVelocity(const Vector2d v) {
 }
 void Object::move(const float ms) {
   this->_position = this->_position + this->_velocity * ms;
-  this->_velocity = (this->_velocity + this->_acceleration * ms) * (1 - _friction);
+  this->_velocity = (this->_velocity + this->_acceleration * ms) * pow(1 - _friction, ms / 100);
 }
 void Object::draw(SDL_Renderer *renderer) const {
   this->_sprite.draw(renderer, this->_position);

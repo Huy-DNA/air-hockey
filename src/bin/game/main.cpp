@@ -1,6 +1,6 @@
 #include "board.hpp"
-#include "constants.hpp"
 #include "collision.hpp"
+#include "constants.hpp"
 #include "keystate.hpp"
 #include "object/bat.hpp"
 #include "object/puck.hpp"
@@ -83,19 +83,25 @@ int main(int argc, const char *argv[]) {
     if (keyStates.isTriggered(SDLK_DOWN)) {
       redBat.addVelocity({0.0, 1.0});
     }
-    /// Set position
-    blueBat.move(deltaMs);
-    redBat.move(deltaMs);
-    puck.move(deltaMs);
 
-    /// Cap everything in the board
-    board.capBlueBatPosition(blueBat);
-    board.capRedBatPosition(redBat);
-    board.capPuckPosition(puck);
+    // Split the movement & collision over the time period (20 rounds)
+    // To prevent the phenomenon that deltaMs is too large, making the puck
+    // penetrate through a colliding bat as the jump is too large
+    for (int i = 0; i < 8; ++i) {
+      /// Set position
+      blueBat.move(deltaMs / 8.0);
+      redBat.move(deltaMs / 8.0);
+      puck.move(deltaMs / 8.0);
 
-    /// Handle collide
-    handleBlueBatCollision(blueBat, puck, board);
-    handleRedBatCollision(redBat, puck, board);
+      /// Cap everything in the board
+      board.capBlueBatPosition(blueBat);
+      board.capRedBatPosition(redBat);
+      board.capPuckPosition(puck);
+
+      /// Handle collide
+      handleBlueBatCollision(blueBat, puck, board);
+      handleRedBatCollision(redBat, puck, board);
+    }
 
     // Render image
     SDL_RenderClear(RENDERER);

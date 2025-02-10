@@ -1,5 +1,4 @@
 #include "sdl_utils.hpp"
-#include "vector2d.hpp"
 #include <SDL_image.h>
 #include <SDL_rect.h>
 #include <SDL_render.h>
