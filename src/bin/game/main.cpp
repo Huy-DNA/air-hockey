@@ -59,7 +59,7 @@ int main(int argc, const char *argv[]) {
       break;
     }
     case GameState::IN_MATCH: {
-      const Match::Winner winner = match.step(stat, keyStates);
+      const Match::Winner winner = match.runFrame(stat, keyStates);
       if (winner == Match::Winner::RED) {
         state = GameState::NO_MATCH;
         ++stat.red;

@@ -48,7 +48,6 @@ public:
 
     // Update states
     /// Set velocity of bats
-    unsigned long long step = deltaMs;
     blueBat.setVelocity({0.0, 0.0});
     if (keyStates.isTriggered(SDLK_a)) {
       blueBat.addVelocity({-1.0, 0.0});
