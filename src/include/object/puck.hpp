@@ -12,8 +12,10 @@ class Bat;
 class Puck : public Object {
 private:
   float _radius;
+
 public:
   Puck(Sprite sprite, Vector2d pos, float radius);
   bool doesCollide(const Bat &) const;
+  Vector2d getCollisionPoint(const Bat &) const;
   float getSize() const;
 };

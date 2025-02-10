@@ -1,6 +1,8 @@
 #include "board.hpp"
 #include "object/bat.hpp"
 #include "object/puck.hpp"
+#include "vector2d.hpp"
+#include <cstdio>
 
 static void uncollideBatAndPuck(Bat &bat, Puck &puck) {
   if (!bat.doesCollide(puck)) {
@@ -35,7 +37,11 @@ void uncollide(Bat &redBat, Bat &blueBat, Puck &puck, Board &board) {
 }
 
 void reflectOffBat(Puck &puck, Bat &bat) {
-  if (bat.doesCollide(puck)) {
-    puck.addVelocity(bat.getVelocity());
+  if (!bat.doesCollide(puck)) {
+    return;
   }
+  Vector2d collisionPoint = bat.getCollisionPoint(puck);
+  Vector2d norm = (collisionPoint - bat.getPosition()).normalize();
+  Vector2d reflectedVelocity = (puck.getVelocity() - bat.getVelocity()).reflect(norm) + bat.getVelocity();
+  puck.setVelocity(reflectedVelocity);
 }

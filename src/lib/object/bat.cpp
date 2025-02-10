@@ -13,3 +13,8 @@ bool Bat::doesCollide(const Puck &puck) const {
 }
 
 float Bat::getSize() const { return _radius; }
+
+Vector2d Bat::getCollisionPoint(const Puck &puck) const {
+  const Vector2d distVec = (puck.getPosition() - this->getPosition()).normalize();
+  return this->getPosition() + distVec * this->_radius;
+}
