@@ -93,13 +93,12 @@ int main(int argc, const char *argv[]) {
       redBat.move(deltaMs / 8.0);
       puck.move(deltaMs / 8.0);
 
-      /// Cap everything in the board
-      board.capBlueBatPosition(blueBat);
-      board.capRedBatPosition(redBat);
-      board.capPuckPosition(puck);
+      /// Reflect
+      reflectOffBat(puck, redBat);
+      reflectOffBat(puck, blueBat);
 
-      /// Handle collision
-      handleCollision(redBat, blueBat, puck, board);
+      /// Adjust all the pieces' positions slightly to a consistent state
+      uncollide(redBat, blueBat, puck, board);
     }
 
     // Render image
