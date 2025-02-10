@@ -24,6 +24,8 @@ int main(int argc, const char *argv[]) {
 
   KeyState keyStates;
   Match match;
+  unsigned int blueScore;
+  unsigned int redScore;
   GameState state = GameState::NO_MATCH;
   while (true) {
     // Event handling
@@ -38,7 +40,7 @@ int main(int argc, const char *argv[]) {
         keyStates.reset(e.key.keysym.sym);
       }
     }
-    
+
     // Switch behavior based on game state
     switch (state) {
     case GameState::NO_MATCH: {
@@ -48,6 +50,13 @@ int main(int argc, const char *argv[]) {
     }
     case GameState::IN_MATCH: {
       const Match::Winner winner = match.step(keyStates);
+      if (winner == Match::Winner::RED) {
+        state = GameState::NO_MATCH;
+        ++redScore;
+      } else if (winner == Match::Winner::BLUE) {
+        state = GameState::NO_MATCH;
+        ++blueScore;
+      }
       break;
     }
     case GameState::QUIT: {

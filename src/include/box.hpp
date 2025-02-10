@@ -7,7 +7,7 @@ class Object;
 
 class Box {
 protected:
-  SDL_Texture *const _sprite;
+  SDL_Texture * _sprite;
   int _x;
   int _y;
   int _w;

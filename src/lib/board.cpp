@@ -4,6 +4,32 @@
 
 Board::Board(SDL_Texture *sprite, int x, int y, int w, int h)
     : Box{sprite, x, y, w, h} {}
+Board::Board(const Board &other)
+    : Box{other._sprite, other._x, other._y, other._w, other._h} {}
+Board &Board::operator=(const Board &other) {
+  this->_sprite = other._sprite;
+  this->_w = other._w;
+  this->_h = other._h;
+  this->_x = other._x;
+  this->_y = other._y;
+  return *this;
+}
+
+float Board::getGoalSize() const { return this->_h / 3.5; }
+
+Vector2d Board::getBlueGoalCenter() const {
+  return Vector2d{
+      (float)_x,
+      _y + _h / 2.0f,
+  };
+}
+
+Vector2d Board::getRedGoalCenter() const {
+  return Vector2d{
+      (float)_x + _w,
+      _y + _h / 2.0f,
+  };
+}
 
 Vector2d Board::getInitBlueBatPos() const {
   return Vector2d{this->_x + this->_w / 9.0f, this->_y + this->_h / 2.0f};
@@ -73,4 +99,26 @@ void Board::capRedBatPosition(Bat &bat) const {
   } else if (pos.y > bottom) {
     bat.setYPosition(bottom);
   }
+}
+
+bool Board::doesPuckCollideWithBlueGoal(Puck &puck) const {
+  const Vector2d pos = puck.getPosition();
+  const Vector2d center = this->getBlueGoalCenter();
+  const float goalSize = this->getGoalSize();
+  if (puck.doesCollideLeft(*this) && pos.y <= center.y + goalSize &&
+      pos.y >= center.y - goalSize) {
+    return true;
+  }
+  return false;
+}
+
+bool Board::doesPuckCollideWithRedGoal(Puck &puck) const {
+  const Vector2d pos = puck.getPosition();
+  const Vector2d center = this->getRedGoalCenter();
+  const float goalSize = this->getGoalSize();
+  if (puck.doesCollideRight(*this) && pos.y <= center.y + goalSize &&
+      pos.y >= center.y - goalSize) {
+    return true;
+  }
+  return false;
 }

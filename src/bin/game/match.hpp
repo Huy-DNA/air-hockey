@@ -78,6 +78,14 @@ public:
       redBat.move(deltaMs / 50.0);
       puck.move(deltaMs / 50.0);
 
+      if (board.doesPuckCollideWithBlueGoal(puck)) {
+        return Winner::RED;
+      }
+
+      if (board.doesPuckCollideWithRedGoal(puck)) {
+        return Winner::BLUE;
+      }
+
       /// Reflect
       reflectOffBat(puck, redBat);
       reflectOffBat(puck, blueBat);
