@@ -15,6 +15,5 @@ private:
 public:
   Bat(Sprite sprite, Vector2d pos, float radius);
   bool doesCollide(const Puck &) const;
-  void handleCollide(const Puck &puck);
   float getSize() const;
 };

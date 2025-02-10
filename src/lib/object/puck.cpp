@@ -11,17 +11,3 @@ Puck::Puck(Sprite sprite, Vector2d pos, float radius)
 bool Puck::doesCollide(const Bat &bat) const { return bat.doesCollide(*this); }
 
 float Puck::getSize() const { return _radius; }
-
-void Puck::handleCollide(const Bat &bat) {
-  if (!this->doesCollide(bat)) {
-    return;
-  }
-  this->addVelocity(bat.getVelocity());
-  const Vector2d distVec = this->getPosition() - bat.getPosition();
-
-  const float dist = distVec.length();
-  const float sumRadius = bat.getSize() + this->getSize();
-  const float diff = sumRadius - dist;
-
-  this->setPosition(this->getPosition() + distVec.normalize() * diff);
-}

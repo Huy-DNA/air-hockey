@@ -1,5 +1,6 @@
 #include "board.hpp"
 #include "constants.hpp"
+#include "collision.hpp"
 #include "keystate.hpp"
 #include "object/bat.hpp"
 #include "object/puck.hpp"
@@ -93,10 +94,8 @@ int main(int argc, const char *argv[]) {
     board.capPuckPosition(puck);
 
     /// Handle collide
-    puck.handleCollide(blueBat);
-    puck.handleCollide(redBat);
-    blueBat.handleCollide(puck);
-    redBat.handleCollide(puck);
+    handleBlueBatCollision(blueBat, puck, board);
+    handleRedBatCollision(redBat, puck, board);
 
     // Render image
     SDL_RenderClear(RENDERER);

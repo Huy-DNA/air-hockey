@@ -13,6 +13,3 @@ bool Bat::doesCollide(const Puck &puck) const {
 }
 
 float Bat::getSize() const { return _radius; }
-
-void Bat::handleCollide(const Puck &puck) {
-  }
