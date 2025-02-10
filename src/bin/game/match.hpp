@@ -26,7 +26,7 @@ private:
   unsigned long long prevMs = SDL_GetTicks64();
 
 public:
-  void reset() {
+  void softReset() {
     this->blueBat =
         Bat(BAT_BLUE_SPRITE, board.getInitBlueBatPos(), BAT_SIZE / 2.0);
     this->redBat =

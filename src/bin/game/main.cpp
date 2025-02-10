@@ -43,7 +43,7 @@ int main(int argc, const char *argv[]) {
     // Switch behavior based on game state
     switch (state) {
     case GameState::NO_MATCH: {
-      match.reset();
+      match.softReset();
       state = GameState::IN_MATCH;
       break;
     }
