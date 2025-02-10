@@ -26,10 +26,10 @@ int main(int argc, const char *argv[]) {
 
   Board board = Board(FIELD_TEXTURE, 0, 0, FIELD_WIDTH, FIELD_HEIGHT);
 
-  Bat blueBat = Bat(BAT_BLUE_SPRITE, board.getInitBlueBatPos(), BAT_SIZE);
-  Bat redBat = Bat(BAT_RED_SPRITE, board.getInitRedBatPos(), BAT_SIZE);
+  Bat blueBat = Bat(BAT_BLUE_SPRITE, board.getInitBlueBatPos(), BAT_SIZE / 2.0);
+  Bat redBat = Bat(BAT_RED_SPRITE, board.getInitRedBatPos(), BAT_SIZE / 2.0);
 
-  Puck puck = Puck(PUCK_SPRITE, board.getInitPuckPos(), PUCK_SIZE);
+  Puck puck = Puck(PUCK_SPRITE, board.getInitPuckPos(), PUCK_SIZE / 2.0);
 
   bool quit = false;
   unsigned long long prevTicks = SDL_GetTicks64();

@@ -12,4 +12,5 @@ private:
 public:
   Puck(Sprite sprite, Vector2d pos, float radius);
   virtual bool doesCollide(const Object &other) const override;
+  float getSize() const;
 };

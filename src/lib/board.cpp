@@ -34,10 +34,10 @@ void Board::capPosition(Object &obj) const {
 
 void Board::capBlueBatPosition(Bat &bat) const {
   const Vector2d pos = bat.getPosition();
-  float left = this->_x;
-  float right = this->_x + this->_w / 2.0;
-  float bottom = this->_y + this->_h;
-  float up = this->_y;
+  float left = this->_x + bat.getSize();
+  float right = this->_x + this->_w / 2.0 - bat.getSize();
+  float bottom = this->_y + this->_h - bat.getSize();
+  float up = this->_y + bat.getSize();
 
   if (pos.x < left) {
     bat.setXPosition(left);
@@ -53,10 +53,10 @@ void Board::capBlueBatPosition(Bat &bat) const {
 
 void Board::capRedBatPosition(Bat &bat) const {
   const Vector2d pos = bat.getPosition();
-  float left = this->_x + this->_w / 2.0;
-  float right = this->_x + this->_w;
-  float bottom = this->_y + this->_h;
-  float up = this->_y;
+  float left = this->_x + this->_w / 2.0 + bat.getSize();
+  float right = this->_x + this->_w - bat.getSize();
+  float bottom = this->_y + this->_h - bat.getSize();
+  float up = this->_y + bat.getSize();
 
   if (pos.x < left) {
     bat.setXPosition(left);
