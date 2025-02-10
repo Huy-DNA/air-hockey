@@ -4,6 +4,7 @@
 #include "sprite.hpp"
 #include <SDL_render.h>
 #include <SDL_surface.h>
+#include <SDL_ttf.h>
 #include <string>
 
 constexpr int SCREEN_WIDTH = 1400;
@@ -36,6 +37,8 @@ SDL_Texture *const BAT_RED_TEXTURE =
 SDL_Texture *const FIELD_TEXTURE =
     loadTexture(RENDERER, FIELD_SPRITE_PATH);
 
-const Sprite BAT_BLUE_SPRITE = Sprite(BAT_BLUE_TEXTURE, {BAT_SIZE / 2.0f, BAT_SIZE / 2.0f}, BAT_SIZE, BAT_SIZE);
-const Sprite BAT_RED_SPRITE = Sprite(BAT_RED_TEXTURE, {BAT_SIZE / 2.0f, BAT_SIZE / 2.0f}, BAT_SIZE, BAT_SIZE);
-const Sprite PUCK_SPRITE = Sprite(PUCK_TEXTURE, {PUCK_SIZE / 2.0f, PUCK_SIZE / 2.0f}, PUCK_SIZE, PUCK_SIZE);
+const inline Sprite BAT_BLUE_SPRITE = Sprite(BAT_BLUE_TEXTURE, {BAT_SIZE / 2.0f, BAT_SIZE / 2.0f}, BAT_SIZE, BAT_SIZE);
+const inline Sprite BAT_RED_SPRITE = Sprite(BAT_RED_TEXTURE, {BAT_SIZE / 2.0f, BAT_SIZE / 2.0f}, BAT_SIZE, BAT_SIZE);
+const inline Sprite PUCK_SPRITE = Sprite(PUCK_TEXTURE, {PUCK_SIZE / 2.0f, PUCK_SIZE / 2.0f}, PUCK_SIZE, PUCK_SIZE);
+
+inline TTF_Font* const FONT = loadFontOrFail(std::string(ASSETS_PATH) + "/font.ttf", 200);

@@ -3,6 +3,7 @@
 #include <SDL_pixels.h>
 #include <SDL_rect.h>
 #include <SDL_render.h>
+#include <SDL_ttf.h>
 #include <SDL_video.h>
 
 SDL_Surface *loadImage(const std::string path) {
@@ -70,4 +71,34 @@ SDL_Renderer *createRendererFromWindowOrFail(SDL_Window *window) {
   SDL_RenderPresent(renderer);
 
   return renderer;
+}
+
+SDL_Texture *loadText(SDL_Renderer *renderer, TTF_Font *font, std::string text,
+                      SDL_Color color) {
+  SDL_Surface *textSurface = TTF_RenderText_Solid(font, text.c_str(), color);
+  if (textSurface == NULL) {
+    printf("Unable to render text surface! SDL_ttf Error: %s\n",
+           TTF_GetError());
+    return NULL;
+  }
+  SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, textSurface);
+  if (texture == NULL) {
+    printf("Unable to create texture from rendered text! SDL Error: %s\n",
+           SDL_GetError());
+  }
+  SDL_FreeSurface(textSurface);
+  return texture;
+}
+
+TTF_Font *loadFontOrFail(std::string path, int ptsize) {
+  if (TTF_Init() < 0) {
+    printf("Unable to init SDL_ttf! SDL_ttf Error: %s\n", TTF_GetError());
+    exit(1);
+  }
+  TTF_Font *font = TTF_OpenFont(path.c_str(), ptsize);
+  if (font == NULL) {
+    printf("Unable to load font! SDL_ttf Error: %s\n", TTF_GetError());
+    exit(1);
+  }
+  return font;
 }

@@ -10,6 +10,7 @@
 #include "object/bat.hpp"
 #include "object/puck.hpp"
 #include <SDL_keycode.h>
+#include <SDL_render.h>
 #include <SDL_timer.h>
 
 class Match {
@@ -28,6 +29,8 @@ private:
   EnergyBar blueBar = EnergyBar(createRect(10, SCREEN_HEIGHT - FIELD_HEIGHT - 75, SCREEN_WIDTH / 3, 50), createColor(0x00, 0x00, 0xFF, 0xFF));
   EnergyBar redBar = EnergyBar(createRect(920, SCREEN_HEIGHT - FIELD_HEIGHT - 75, SCREEN_WIDTH / 3, 50), createColor(0xFF, 0x00, 0x00, 0xFF));
   unsigned long long prevMs = SDL_GetTicks64();
+  const SDL_Rect blueScoreRect = createRect(550, 25, 75, 75);
+  const SDL_Rect redScoreRect = createRect(750, 25, 75, 75);
 
 public:
   void softReset() {
@@ -117,6 +120,8 @@ public:
     puck.draw(RENDERER);
     redBar.draw(RENDERER);
     blueBar.draw(RENDERER);
+    SDL_RenderCopy(RENDERER, loadText(RENDERER, FONT, std::to_string(stat.blue), createColor(0x00, 0x00, 0xFF, 0xFF)), NULL, &blueScoreRect);
+    SDL_RenderCopy(RENDERER, loadText(RENDERER, FONT, std::to_string(stat.red), createColor(0xFF, 0x00, 0x00, 0xFF)), NULL, &redScoreRect);
     SDL_RenderPresent(RENDERER);
 
     // Epilog
