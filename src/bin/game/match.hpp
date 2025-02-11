@@ -83,10 +83,21 @@ public:
   Winner step(Stat stat, const KeyState &keyStates) {
     unsigned long long curMs = SDL_GetTicks64();
     unsigned long long deltaMs = curMs - this->prevMs;
-    Bat *blueBat = &this->blueBatOne;
-    Bat *redBat = &this->redBatOne;
 
     // Update states
+    /// Switch pieces
+    static bool prevQPressed = false;
+    static bool prevLPressed = false;
+    const bool QPressed = keyStates.isTriggered(SDLK_q);
+    const bool LPressed = keyStates.isTriggered(SDLK_l);
+    if (!prevQPressed && QPressed) {
+      curBlueBat = curBlueBat == &blueBatOne ? &blueBatTwo : &blueBatOne;
+    }
+    if (!prevLPressed && LPressed) {
+      curRedBat = curRedBat == &redBatOne ? &redBatTwo : &redBatOne;
+    }
+    prevQPressed = QPressed;
+    prevLPressed = LPressed;
     /// Set velocity of bats
     blueBatOne.setVelocity({0.0, 0.0});
     blueBatTwo.setVelocity({0.0, 0.0});

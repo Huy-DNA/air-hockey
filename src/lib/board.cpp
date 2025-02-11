@@ -32,15 +32,15 @@ Vector2d Board::getGoalCenter(Color color) const {
 Vector2d Board::getInitBatPos(Color color, Ally ally) const {
   switch (color) {
   case Color::BLUE:
-    return ally == Ally::TWO ? Vector2d{this->_x + this->_w / 10.0f,
-                                        this->_y + this->_h / 2.0f}
-                             : Vector2d{this->_x + this->_w * 3.0f / 10.0f,
-                                        this->_y + this->_h / 2.0f};
+    return ally == Ally::TWO ? Vector2d{this->_x + this->_w / 10.0f + 22,
+                                        this->_y + this->_h / 4.0f}
+                             : Vector2d{this->_x + this->_w / 10.0f + 22,
+                                        this->_y + this->_h * 3.0f / 4.0f};
   case Color::RED:
-    return ally == Ally::TWO ? Vector2d{this->_x + this->_w * 9.0f / 10.0f,
-                                        this->_y + this->_h / 2.0f}
-                             : Vector2d{this->_x + this->_w * 7.0f / 10.0f,
-                                        this->_y + this->_h / 2.0f};
+    return ally == Ally::TWO ? Vector2d{this->_x + this->_w * 9.0f / 10.0f - 22,
+                                        this->_y + this->_h / 4.0f}
+                             : Vector2d{this->_x + this->_w * 9.0f / 10.0f - 22,
+                                        this->_y + this->_h * 3.0f /4.0f};
   }
   throw "Unreachable";
 }
