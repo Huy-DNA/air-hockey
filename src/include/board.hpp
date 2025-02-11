@@ -1,6 +1,7 @@
 #pragma once
 
 #include "box.hpp"
+#include "piece.hpp"
 #include "object/bat.hpp"
 #include "vector2d.hpp"
 #include <SDL_rect.h>
@@ -15,14 +16,10 @@ public:
   Board& operator=(const Board&);
 
   float getGoalSize() const;
-  Vector2d getBlueGoalCenter() const;
-  Vector2d getRedGoalCenter() const;
-  Vector2d getInitBlueBatPos() const;
-  Vector2d getInitRedBatPos() const;
+  Vector2d getGoalCenter(Color color) const;
+  Vector2d getInitBatPos(Color color, Ally ally) const;
   Vector2d getInitPuckPos() const;
-  bool doesPuckCollideWithBlueGoal(Puck &) const;
-  bool doesPuckCollideWithRedGoal(Puck &) const;
-  void capBlueBatPosition(Bat &) const;
-  void capRedBatPosition(Bat &) const;
+  bool doesPuckCollideWithGoal(Color color, Puck &) const;
+  void capBatPosition(Bat &) const;
   void capPuckPosition(Puck &) const;
 };

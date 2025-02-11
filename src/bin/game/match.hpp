@@ -1,17 +1,20 @@
 #pragma once
 
-#include "energy_bar.hpp"
-#include "sdl_utils.hpp"
-#include "state.hpp"
 #include "board.hpp"
 #include "collision.hpp"
+#include "piece.hpp"
 #include "constants.hpp"
+#include "energy_bar.hpp"
 #include "keystate.hpp"
 #include "object/bat.hpp"
 #include "object/puck.hpp"
+#include "piece.hpp"
+#include "sdl_utils.hpp"
+#include "state.hpp"
 #include <SDL_keycode.h>
 #include <SDL_render.h>
 #include <SDL_timer.h>
+#include <array>
 
 class Match {
 public:
@@ -23,57 +26,96 @@ public:
 
 private:
   Board board = Board(FIELD_TEXTURE, 0, 100, FIELD_WIDTH, FIELD_HEIGHT);
-  Bat blueBat = Bat(BAT_BLUE_SPRITE, board.getInitBlueBatPos(), BAT_SIZE / 2.0);
-  Bat redBat = Bat(BAT_RED_SPRITE, board.getInitRedBatPos(), BAT_SIZE / 2.0);
+
+  Bat blueBatOne =
+      Bat(BAT_BLUE_SPRITE, Color::BLUE,
+          board.getInitBatPos(Color::BLUE, Ally::ONE), BAT_SIZE / 2.0);
+  Bat blueBatTwo =
+      Bat(BAT_BLUE_SPRITE, Color::BLUE,
+          board.getInitBatPos(Color::BLUE, Ally::TWO), BAT_SIZE / 2.0);
+  Bat *curBlueBat = &blueBatOne;
+
+  Bat redBatOne =
+      Bat(BAT_RED_SPRITE, Color::RED,
+          board.getInitBatPos(Color::RED, Ally::ONE), BAT_SIZE / 2.0);
+  Bat redBatTwo =
+      Bat(BAT_RED_SPRITE, Color::RED,
+          board.getInitBatPos(Color::RED, Ally::TWO), BAT_SIZE / 2.0);
+  Bat *curRedBat = &redBatOne;
+
   Puck puck = Puck(PUCK_SPRITE, board.getInitPuckPos(), PUCK_SIZE / 2.0);
-  EnergyBar blueBar = EnergyBar(createRect(10, SCREEN_HEIGHT - FIELD_HEIGHT - 75, SCREEN_WIDTH / 3, 50), createColor(0x00, 0x00, 0xFF, 0xFF));
-  EnergyBar redBar = EnergyBar(createRect(920, SCREEN_HEIGHT - FIELD_HEIGHT - 75, SCREEN_WIDTH / 3, 50), createColor(0xFF, 0x00, 0x00, 0xFF));
-  unsigned long long prevMs = SDL_GetTicks64();
+
+  EnergyBar blueBar = EnergyBar(
+      createRect(10, SCREEN_HEIGHT - FIELD_HEIGHT - 75, SCREEN_WIDTH / 3, 50),
+      createColor(0x00, 0x00, 0xFF, 0xFF));
+  EnergyBar redBar = EnergyBar(
+      createRect(920, SCREEN_HEIGHT - FIELD_HEIGHT - 75, SCREEN_WIDTH / 3, 50),
+      createColor(0xFF, 0x00, 0x00, 0xFF));
+
   const SDL_Rect blueScoreRect = createRect(550, 25, 75, 75);
   const SDL_Rect redScoreRect = createRect(750, 25, 75, 75);
 
+  unsigned long long prevMs = SDL_GetTicks64();
+
 public:
   void softReset() {
-    this->blueBat =
-        Bat(BAT_BLUE_SPRITE, board.getInitBlueBatPos(), BAT_SIZE / 2.0);
-    this->redBat =
-        Bat(BAT_RED_SPRITE, board.getInitRedBatPos(), BAT_SIZE / 2.0);
+    this->blueBatOne =
+        Bat(BAT_BLUE_SPRITE, Color::BLUE,
+            board.getInitBatPos(Color::BLUE, Ally::ONE), BAT_SIZE / 2.0);
+    this->blueBatTwo =
+        Bat(BAT_BLUE_SPRITE, Color::BLUE,
+            board.getInitBatPos(Color::BLUE, Ally::TWO), BAT_SIZE / 2.0);
+    this->curBlueBat = &blueBatOne;
+
+    this->redBatOne =
+        Bat(BAT_RED_SPRITE, Color::RED,
+            board.getInitBatPos(Color::RED, Ally::ONE), BAT_SIZE / 2.0);
+    this->redBatTwo =
+        Bat(BAT_RED_SPRITE, Color::RED,
+            board.getInitBatPos(Color::RED, Ally::TWO), BAT_SIZE / 2.0);
+    this->curRedBat = &redBatOne;
+
     this->puck = Puck(PUCK_SPRITE, board.getInitPuckPos(), PUCK_SIZE / 2.0);
+
     this->prevMs = SDL_GetTicks64();
   }
 
   Winner step(Stat stat, const KeyState &keyStates) {
     unsigned long long curMs = SDL_GetTicks64();
     unsigned long long deltaMs = curMs - this->prevMs;
+    Bat *blueBat = &this->blueBatOne;
+    Bat *redBat = &this->redBatOne;
 
     // Update states
     /// Set velocity of bats
-    blueBat.setVelocity({0.0, 0.0});
+    blueBatOne.setVelocity({0.0, 0.0});
+    blueBatTwo.setVelocity({0.0, 0.0});
     if (keyStates.isTriggered(SDLK_a)) {
-      blueBat.addVelocity({-1.0, 0.0});
+      curBlueBat->addVelocity({-1.0, 0.0});
     }
     if (keyStates.isTriggered(SDLK_d)) {
-      blueBat.addVelocity({1.0, 0.0});
+      curBlueBat->addVelocity({1.0, 0.0});
     }
     if (keyStates.isTriggered(SDLK_w)) {
-      blueBat.addVelocity({0.0, -1.0});
+      curBlueBat->addVelocity({0.0, -1.0});
     }
     if (keyStates.isTriggered(SDLK_s)) {
-      blueBat.addVelocity({0.0, 1.0});
+      curBlueBat->addVelocity({0.0, 1.0});
     }
 
-    redBat.setVelocity({0.0, 0.0});
+    redBatOne.setVelocity({0.0, 0.0});
+    redBatTwo.setVelocity({0.0, 0.0});
     if (keyStates.isTriggered(SDLK_LEFT)) {
-      redBat.addVelocity({-1.0, 0.0});
+      curRedBat->addVelocity({-1.0, 0.0});
     }
     if (keyStates.isTriggered(SDLK_RIGHT)) {
-      redBat.addVelocity({1.0, 0.0});
+      curRedBat->addVelocity({1.0, 0.0});
     }
     if (keyStates.isTriggered(SDLK_UP)) {
-      redBat.addVelocity({0.0, -1.0});
+      curRedBat->addVelocity({0.0, -1.0});
     }
     if (keyStates.isTriggered(SDLK_DOWN)) {
-      redBat.addVelocity({0.0, 1.0});
+      curRedBat->addVelocity({0.0, 1.0});
     }
 
     // Split the movement & collision over the time period (50 rounds)
@@ -81,46 +123,58 @@ public:
     // penetrate through a colliding bat as the jump is too large
     for (int i = 0; i < 50; ++i) {
       /// Set position
-      blueBat.move(deltaMs / 50.0);
-      redBat.move(deltaMs / 50.0);
+      curBlueBat->move(deltaMs / 50.0);
+      curRedBat->move(deltaMs / 50.0);
       puck.move(deltaMs / 50.0);
 
-      if (puck.doesCollide(blueBat)) {
+      if (puck.doesCollide(*curBlueBat)) {
         blueBar.addPercent(0.1);
       }
 
-      if (puck.doesCollide(redBat)) {
+      if (puck.doesCollide(*curRedBat)) {
         redBar.addPercent(0.1);
       }
 
-      if (board.doesPuckCollideWithBlueGoal(puck)) {
+      if (board.doesPuckCollideWithGoal(Color::BLUE, puck)) {
         return Winner::RED;
       }
 
-      if (board.doesPuckCollideWithRedGoal(puck)) {
+      if (board.doesPuckCollideWithGoal(Color::RED, puck)) {
         return Winner::BLUE;
       }
 
       /// Reflect
-      reflectOffBat(puck, redBat);
-      reflectOffBat(puck, blueBat);
+      reflectOffBat(puck, redBatOne);
+      reflectOffBat(puck, redBatTwo);
+      reflectOffBat(puck, blueBatOne);
+      reflectOffBat(puck, blueBatTwo);
       reflectOffBoard(puck, board);
 
       /// Adjust all the pieces' positions slightly to a consistent state
-      uncollide(redBat, blueBat, puck, board);
+      uncollide(std::array<Bat *, 4>{&redBatOne, &redBatTwo, &blueBatOne,
+                                     &blueBatTwo},
+                puck, board);
     }
 
     // Render image
     SDL_SetRenderDrawColor(RENDERER, 0xFF, 0xFF, 0xFF, 0xFF);
     SDL_RenderClear(RENDERER);
     board.draw(RENDERER);
-    blueBat.draw(RENDERER);
-    redBat.draw(RENDERER);
+    blueBatOne.draw(RENDERER);
+    blueBatTwo.draw(RENDERER);
+    redBatOne.draw(RENDERER);
+    redBatTwo.draw(RENDERER);
     puck.draw(RENDERER);
     redBar.draw(RENDERER);
     blueBar.draw(RENDERER);
-    SDL_RenderCopy(RENDERER, loadText(RENDERER, FONT, std::to_string(stat.blue), createColor(0x00, 0x00, 0xFF, 0xFF)), NULL, &blueScoreRect);
-    SDL_RenderCopy(RENDERER, loadText(RENDERER, FONT, std::to_string(stat.red), createColor(0xFF, 0x00, 0x00, 0xFF)), NULL, &redScoreRect);
+    SDL_RenderCopy(RENDERER,
+                   loadText(RENDERER, FONT, std::to_string(stat.blue),
+                            createColor(0x00, 0x00, 0xFF, 0xFF)),
+                   NULL, &blueScoreRect);
+    SDL_RenderCopy(RENDERER,
+                   loadText(RENDERER, FONT, std::to_string(stat.red),
+                            createColor(0xFF, 0x00, 0x00, 0xFF)),
+                   NULL, &redScoreRect);
     SDL_RenderPresent(RENDERER);
 
     // Epilog

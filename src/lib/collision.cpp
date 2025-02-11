@@ -19,21 +19,19 @@ static void uncollideBatAndPuck(Bat &bat, Puck &puck) {
   puck.setPosition(puck.getPosition() + distVec.normalize() * diff);
 }
 
-void uncollide(Bat &redBat, Bat &blueBat, Puck &puck, Board &board) {
-  for (int i = 0;
-       i < 100 && (redBat.doesCollide(puck) || blueBat.doesCollide(puck));
-       ++i) {
-
-    uncollideBatAndPuck(redBat, puck);
-    uncollideBatAndPuck(blueBat, puck);
-
-    board.capPuckPosition(puck);
-    board.capRedBatPosition(redBat);
-    board.capBlueBatPosition(blueBat);
+static void uncollideBatAndBat(Bat &bat1, Bat &bat2) {
+  if (!bat1.doesCollide(bat2)) {
+    return;
   }
-  board.capPuckPosition(puck);
-  board.capRedBatPosition(redBat);
-  board.capBlueBatPosition(blueBat);
+
+  const Vector2d distVec = bat2.getPosition() - bat1.getPosition();
+
+  const float dist = distVec.length();
+  const float sumRadius = bat1.getSize() + bat2.getSize();
+  const float diff = sumRadius - dist;
+
+  bat1.setPosition(bat1.getPosition() - distVec.normalize() * diff / 10);
+  bat2.setPosition(bat2.getPosition() + distVec.normalize() * diff);
 }
 
 void reflectOffBat(Puck &puck, Bat &bat) {
