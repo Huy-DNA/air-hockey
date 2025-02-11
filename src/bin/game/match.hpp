@@ -43,8 +43,8 @@ private:
 
   Puck puck = Puck(PUCK_SPRITE, board.getInitPuckPos(), PUCK_SIZE / 2.0);
 
-  const SDL_Rect blueScoreRect = createRect(550, 25, 75, 75);
-  const SDL_Rect redScoreRect = createRect(750, 25, 75, 75);
+  const SDL_Rect blueScoreRect = createRect(board.getLeft() + 70, 25, 75, 75);
+  const SDL_Rect redScoreRect = createRect(board.getRight() - 200, 25, 75, 75);
 
   unsigned long long prevMs = SDL_GetTicks64();
 
