@@ -117,14 +117,14 @@ public:
     }
     /// Handle buffs
     if (blueBuff.type == BuffType::WIND && blueBuff.consumeDurational(curMs)) {
-      puck.addVelocity({0.002f * deltaMs, 0});
+      puck.addVelocity({0.001f * deltaMs, 0});
     } else if (blueBuff.type == BuffType::RANDOMIZATION &&
                blueBuff.consumeOneShot()) {
       redBatOne.setPosition(board.getRandomBatPos(Color::RED));
       redBatTwo.setPosition(board.getRandomBatPos(Color::RED));
     }
     if (redBuff.type == BuffType::WIND && redBuff.consumeDurational(curMs)) {
-      puck.addVelocity({-0.002f * deltaMs, 0});
+      puck.addVelocity({-0.001f * deltaMs, 0});
     } else if (redBuff.type == BuffType::RANDOMIZATION &&
                redBuff.consumeOneShot()) {
       blueBatOne.setPosition(board.getRandomBatPos(Color::BLUE));
