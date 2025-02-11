@@ -1,8 +1,8 @@
 #pragma once
 
 #include "board.hpp"
+#include "buff.hpp"
 #include "collision.hpp"
-#include "piece.hpp"
 #include "constants.hpp"
 #include "energy_bar.hpp"
 #include "keystate.hpp"
@@ -52,6 +52,9 @@ private:
       createRect(920, SCREEN_HEIGHT - FIELD_HEIGHT - 75, SCREEN_WIDTH / 3, 50),
       createColor(0xFF, 0x00, 0x00, 0xFF));
 
+  Buff blueBuff = Buff::NONE;
+  Buff redBuff = Buff::NONE;
+
   const SDL_Rect blueScoreRect = createRect(550, 25, 75, 75);
   const SDL_Rect redScoreRect = createRect(750, 25, 75, 75);
 
@@ -74,6 +77,9 @@ public:
         Bat(BAT_RED_SPRITE, Color::RED,
             board.getInitBatPos(Color::RED, Ally::TWO), BAT_SIZE / 2.0);
     this->curRedBat = &redBatOne;
+
+    this->blueBuff = Buff::NONE;
+    this->redBuff = Buff::NONE;
 
     this->puck = Puck(PUCK_SPRITE, board.getInitPuckPos(), PUCK_SIZE / 2.0);
 
@@ -98,6 +104,15 @@ public:
     }
     prevFPressed = FPressed;
     prevKPressed = KPressed;
+    /// Activate buffs
+    if (blueBar.isFull() && keyStates.isTriggered(SDLK_g)) {
+      blueBuff = drawBuff();
+      blueBar.setPercent(0);
+    }
+    if (redBar.isFull() && keyStates.isTriggered(SDLK_l)) {
+      redBuff = drawBuff();
+      redBar.setPercent(0);
+    }
     /// Set velocity of bats
     blueBatOne.setVelocity({0.0, 0.0});
     blueBatTwo.setVelocity({0.0, 0.0});
