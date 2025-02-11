@@ -2,6 +2,8 @@
 #include "object.hpp"
 #include "piece.hpp"
 #include "vector2d.hpp"
+#include <cstdlib>
+#include <ctime>
 
 Board::Board(SDL_Texture *sprite, int x, int y, int w, int h)
     : Box{sprite, x, y, w, h} {}
@@ -40,7 +42,21 @@ Vector2d Board::getInitBatPos(Color color, Ally ally) const {
     return ally == Ally::TWO ? Vector2d{this->_x + this->_w * 9.0f / 10.0f - 22,
                                         this->_y + this->_h / 4.0f}
                              : Vector2d{this->_x + this->_w * 9.0f / 10.0f - 22,
-                                        this->_y + this->_h * 3.0f /4.0f};
+                                        this->_y + this->_h * 3.0f / 4.0f};
+  }
+  throw "Unreachable";
+}
+
+Vector2d Board::getRandomBatPos(Color color) const {
+  static int _ = (srand(time(0)), 0);
+  switch (color) {
+  case Color::BLUE:
+    return Vector2d{this->_x + (rand() * 1.0f / RAND_MAX) * this->_w / 2.0f,
+                    this->_y + (rand() * 1.0f / RAND_MAX) * this->_h};
+  case Color::RED:
+    return Vector2d{this->_x + this->_w / 2.0f +
+                        (rand() * 1.0f / RAND_MAX) * this->_w / 2.0f,
+                    this->_y + (rand() * 1.0f / RAND_MAX) * this->_h};
   }
   throw "Unreachable";
 }

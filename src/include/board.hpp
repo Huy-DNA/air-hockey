@@ -19,6 +19,7 @@ public:
   Vector2d getGoalCenter(Color color) const;
   Vector2d getInitBatPos(Color color, Ally ally) const;
   Vector2d getInitPuckPos() const;
+  Vector2d getRandomBatPos(Color color) const;
   bool doesPuckCollideWithGoal(Color color, Puck &) const;
   void capBatPosition(Bat &) const;
   void capPuckPosition(Puck &) const;

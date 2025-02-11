@@ -6,9 +6,14 @@ enum class BuffType {
   TOTAL_BUFFS,
 };
 
-BuffType drawBuff();
-
 struct Buff {
   BuffType type;
   unsigned long long endMs;
+  
+  bool isOneShot() const;
+  bool isDurational() const;
+  bool consumeOneShot();
+  bool consumeDurational(unsigned long long curMs);
 };
+
+Buff drawBuff();

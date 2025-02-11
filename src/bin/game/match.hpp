@@ -106,14 +106,27 @@ public:
     prevKPressed = KPressed;
     /// Activate buffs
     if (blueBar.isFull() && keyStates.isTriggered(SDLK_g)) {
-      blueBuff.type = drawBuff();
-      blueBuff.endMs = SDL_GetTicks64() + 5000;
+      blueBuff = drawBuff();
       blueBar.setPercent(0);
     }
     if (redBar.isFull() && keyStates.isTriggered(SDLK_l)) {
-      redBuff.type = drawBuff();
-      redBuff.endMs = SDL_GetTicks64() + 5000;
+      redBuff = drawBuff();
       redBar.setPercent(0);
+    }
+    /// Handle buffs
+    if (blueBuff.type == BuffType::WIND && blueBuff.consumeDurational(curMs)) {
+      puck.addVelocity({0.002f * deltaMs, 0});
+    } else if (blueBuff.type == BuffType::RANDOMIZATION &&
+               blueBuff.consumeOneShot()) {
+      redBatOne.setPosition(board.getRandomBatPos(Color::RED));
+      redBatTwo.setPosition(board.getRandomBatPos(Color::RED));
+    }
+    if (redBuff.type == BuffType::WIND && redBuff.consumeDurational(curMs)) {
+      puck.addVelocity({-0.002f * deltaMs, 0});
+    } else if (redBuff.type == BuffType::RANDOMIZATION &&
+               redBuff.consumeOneShot()) {
+      blueBatOne.setPosition(board.getRandomBatPos(Color::BLUE));
+      blueBatTwo.setPosition(board.getRandomBatPos(Color::BLUE));
     }
 
     /// Set velocity of bats
@@ -145,14 +158,6 @@ public:
     }
     if (keyStates.isTriggered(SDLK_DOWN)) {
       curRedBat->addVelocity({0.0, 1.0});
-    }
-
-    /// Handle buffs
-    if (blueBuff.type == BuffType::WIND && blueBuff.endMs > SDL_GetTicks64()) {
-      puck.addVelocity({0.002f * deltaMs, 0});
-    }
-    if (redBuff.type == BuffType::WIND && redBuff.endMs > SDL_GetTicks64()) {
-      puck.addVelocity({-0.002f * deltaMs, 0});
     }
 
     // Split the movement & collision over the time period (50 rounds)
