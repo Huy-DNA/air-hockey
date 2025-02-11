@@ -15,4 +15,5 @@ public:
   void setPercent(float percent);
   void addPercent(float percent);
   void draw(SDL_Renderer*) const;
+  bool isFull() const;
 };

@@ -36,3 +36,7 @@ void EnergyBar::draw(SDL_Renderer *renderer) const {
   SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
   SDL_RenderDrawRect(renderer, &this->_rect);
 }
+
+bool EnergyBar::isFull() const {
+  return this->_percent == 100;
+}
