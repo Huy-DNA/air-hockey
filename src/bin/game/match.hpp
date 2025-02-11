@@ -52,8 +52,8 @@ private:
       createRect(920, SCREEN_HEIGHT - FIELD_HEIGHT - 75, SCREEN_WIDTH / 3, 50),
       createColor(0xFF, 0x00, 0x00, 0xFF));
 
-  Buff blueBuff = Buff::NONE;
-  Buff redBuff = Buff::NONE;
+  BuffType blueBuff = BuffType::NONE;
+  BuffType redBuff = BuffType::NONE;
 
   const SDL_Rect blueScoreRect = createRect(550, 25, 75, 75);
   const SDL_Rect redScoreRect = createRect(750, 25, 75, 75);
@@ -78,8 +78,8 @@ public:
             board.getInitBatPos(Color::RED, Ally::TWO), BAT_SIZE / 2.0);
     this->curRedBat = &redBatOne;
 
-    this->blueBuff = Buff::NONE;
-    this->redBuff = Buff::NONE;
+    this->blueBuff = BuffType::NONE;
+    this->redBuff = BuffType::NONE;
 
     this->puck = Puck(PUCK_SPRITE, board.getInitPuckPos(), PUCK_SIZE / 2.0);
 

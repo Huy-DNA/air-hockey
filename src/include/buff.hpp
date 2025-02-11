@@ -1,10 +1,10 @@
 #pragma once
 
-enum class Buff {
+enum class BuffType {
   NONE,
   WIND,
   RANDOMIZATION,
   TOTAL_BUFFS,
 };
 
-Buff drawBuff();
+BuffType drawBuff();

@@ -4,7 +4,7 @@
 
 static int _ = (srand(time(0)), 0);
 
-Buff drawBuff() { 
-  const int index = rand() % static_cast<int>(Buff::TOTAL_BUFFS);
-  return static_cast<Buff>(index);
+BuffType drawBuff() { 
+  const int index = rand() % static_cast<int>(BuffType::TOTAL_BUFFS);
+  return static_cast<BuffType>(index);
 }
