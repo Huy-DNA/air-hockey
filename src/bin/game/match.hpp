@@ -9,10 +9,12 @@
 #include "piece.hpp"
 #include "sdl_utils.hpp"
 #include "state.hpp"
+#include "windbar.hpp"
 #include <SDL_keycode.h>
 #include <SDL_render.h>
 #include <SDL_timer.h>
 #include <array>
+#include <cstdlib>
 
 class Match {
 public:
@@ -43,6 +45,9 @@ private:
 
   Puck puck = Puck(PUCK_SPRITE, board.getInitPuckPos(), PUCK_SIZE / 2.0);
 
+  WindBar windBar = WindBar({SCREEN_WIDTH / 2.0, 50});
+  unsigned long long windMs = SDL_GetTicks64();
+
   const SDL_Rect blueScoreRect = createRect(board.getLeft() + 70, 25, 75, 75);
   const SDL_Rect redScoreRect = createRect(board.getRight() - 200, 25, 75, 75);
 
@@ -68,6 +73,9 @@ public:
 
     this->puck = Puck(PUCK_SPRITE, board.getInitPuckPos(), PUCK_SIZE / 2.0);
 
+    this->windBar = WindBar({SCREEN_WIDTH / 2.0, 50});
+    this->windMs = SDL_GetTicks64();
+
     this->prevMs = SDL_GetTicks64();
   }
 
@@ -76,6 +84,12 @@ public:
     unsigned long long deltaMs = curMs - this->prevMs;
 
     // Update states
+    /// Update wind
+    if (curMs - windMs > 5000) {
+      windMs = curMs;
+      windBar.setWindRate((rand() * 1.0 / RAND_MAX - 0.5) * 2);
+    }
+    puck.addVelocity(windBar.getWindVelocity() * deltaMs / 1000);
     /// Switch pieces
     static bool prevFPressed = false;
     static bool prevKPressed = false;
@@ -159,6 +173,7 @@ public:
     redBatOne.draw(RENDERER);
     redBatTwo.draw(RENDERER);
     puck.draw(RENDERER);
+    windBar.draw(RENDERER);
     SDL_RenderCopy(RENDERER,
                    loadText(RENDERER, FONT, std::to_string(stat.blue),
                             createColor(0x00, 0x00, 0xFF, 0xFF)),

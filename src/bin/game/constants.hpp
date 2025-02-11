@@ -26,6 +26,10 @@ const inline std::string PUCK_SPRITE_PATH =
     std::string(ASSETS_PATH) + "/puck.png";
 const inline std::string FIELD_SPRITE_PATH =
     std::string(ASSETS_PATH) + "/field.jpg";
+const inline std::string WIND_RIGHT_SPRITE_PATH =
+    std::string(ASSETS_PATH) + "/wind-right.png";
+const inline std::string WIND_LEFT_SPRITE_PATH =
+    std::string(ASSETS_PATH) + "/wind-left.png";
 
 SDL_Surface *const ICON_SURFACE = loadImage(BAT_BLUE_SPRITE_PATH);
 
@@ -36,6 +40,10 @@ SDL_Texture *const BAT_RED_TEXTURE =
     loadTexture(RENDERER, BAT_RED_SPRITE_PATH);
 SDL_Texture *const FIELD_TEXTURE =
     loadTexture(RENDERER, FIELD_SPRITE_PATH);
+SDL_Texture *const WIND_RIGHT_TEXTURE =
+    loadTexture(RENDERER, WIND_RIGHT_SPRITE_PATH);
+SDL_Texture *const WIND_LEFT_TEXTURE =
+    loadTexture(RENDERER, WIND_LEFT_SPRITE_PATH);
 
 const inline Sprite BAT_BLUE_SPRITE = Sprite(BAT_BLUE_TEXTURE, {BAT_SIZE / 2.0f, BAT_SIZE / 2.0f}, BAT_SIZE, BAT_SIZE);
 const inline Sprite BAT_RED_SPRITE = Sprite(BAT_RED_TEXTURE, {BAT_SIZE / 2.0f, BAT_SIZE / 2.0f}, BAT_SIZE, BAT_SIZE);
