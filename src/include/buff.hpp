@@ -1,10 +1,14 @@
 #pragma once
 
 enum class BuffType {
-  NONE,
   WIND,
   RANDOMIZATION,
   TOTAL_BUFFS,
 };
 
 BuffType drawBuff();
+
+struct Buff {
+  BuffType type;
+  unsigned long long endMs;
+};

@@ -52,8 +52,8 @@ private:
       createRect(920, SCREEN_HEIGHT - FIELD_HEIGHT - 75, SCREEN_WIDTH / 3, 50),
       createColor(0xFF, 0x00, 0x00, 0xFF));
 
-  BuffType blueBuff = BuffType::NONE;
-  BuffType redBuff = BuffType::NONE;
+  Buff blueBuff = Buff{};
+  Buff redBuff = Buff{};
 
   const SDL_Rect blueScoreRect = createRect(550, 25, 75, 75);
   const SDL_Rect redScoreRect = createRect(750, 25, 75, 75);
@@ -78,8 +78,8 @@ public:
             board.getInitBatPos(Color::RED, Ally::TWO), BAT_SIZE / 2.0);
     this->curRedBat = &redBatOne;
 
-    this->blueBuff = BuffType::NONE;
-    this->redBuff = BuffType::NONE;
+    this->blueBuff = Buff{};
+    this->redBuff = Buff{};
 
     this->puck = Puck(PUCK_SPRITE, board.getInitPuckPos(), PUCK_SIZE / 2.0);
 
@@ -106,13 +106,16 @@ public:
     prevKPressed = KPressed;
     /// Activate buffs
     if (blueBar.isFull() && keyStates.isTriggered(SDLK_g)) {
-      blueBuff = drawBuff();
+      blueBuff.type = drawBuff();
+      blueBuff.endMs = SDL_GetTicks64() + 5000;
       blueBar.setPercent(0);
     }
     if (redBar.isFull() && keyStates.isTriggered(SDLK_l)) {
-      redBuff = drawBuff();
+      redBuff.type = drawBuff();
+      redBuff.endMs = SDL_GetTicks64() + 5000;
       redBar.setPercent(0);
     }
+
     /// Set velocity of bats
     blueBatOne.setVelocity({0.0, 0.0});
     blueBatTwo.setVelocity({0.0, 0.0});
@@ -142,6 +145,14 @@ public:
     }
     if (keyStates.isTriggered(SDLK_DOWN)) {
       curRedBat->addVelocity({0.0, 1.0});
+    }
+
+    /// Handle buffs
+    if (blueBuff.type == BuffType::WIND && blueBuff.endMs > SDL_GetTicks64()) {
+      puck.addVelocity({0.002f * deltaMs, 0});
+    }
+    if (redBuff.type == BuffType::WIND && redBuff.endMs > SDL_GetTicks64()) {
+      puck.addVelocity({-0.002f * deltaMs, 0});
     }
 
     // Split the movement & collision over the time period (50 rounds)

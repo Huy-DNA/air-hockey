@@ -27,6 +27,7 @@ public:
   void addVelocity(const Vector2d v);
   Vector2d getVelocity() const;
   void setAcceleration(const Vector2d a);
+  void addAcceleration(const Vector2d a);
   Vector2d getAcceleration(const Vector2d a) const;
   void move(const float ms);
   void draw(SDL_Renderer *renderer) const;
