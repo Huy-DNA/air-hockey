@@ -16,7 +16,7 @@ Board &Board::operator=(const Board &other) {
   return *this;
 }
 
-float Board::getGoalSize() const { return this->_h / 3.5; }
+float Board::getGoalSize() const { return this->_h / 4.0; }
 
 Vector2d Board::getGoalCenter(Color color) const {
   return color == Color::BLUE ? Vector2d{
