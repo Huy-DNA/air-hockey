@@ -1,10 +1,8 @@
 #pragma once
 
 #include "board.hpp"
-#include "buff.hpp"
 #include "collision.hpp"
 #include "constants.hpp"
-#include "animation/energy_bar.hpp"
 #include "keystate.hpp"
 #include "object/bat.hpp"
 #include "object/puck.hpp"
@@ -45,18 +43,6 @@ private:
 
   Puck puck = Puck(PUCK_SPRITE, board.getInitPuckPos(), PUCK_SIZE / 2.0);
 
-  EnergyBar blueBar = EnergyBar(
-      createRect(10, SCREEN_HEIGHT - FIELD_HEIGHT - 75, SCREEN_WIDTH / 3, 50),
-      createColor(0x00, 0x00, 0xFF, 0xFF),
-      0.001);
-  EnergyBar redBar = EnergyBar(
-      createRect(920, SCREEN_HEIGHT - FIELD_HEIGHT - 75, SCREEN_WIDTH / 3, 50),
-      createColor(0xFF, 0x00, 0x00, 0xFF),
-      0.001);
-
-  Buff blueBuff = Buff{};
-  Buff redBuff = Buff{};
-
   const SDL_Rect blueScoreRect = createRect(550, 25, 75, 75);
   const SDL_Rect redScoreRect = createRect(750, 25, 75, 75);
 
@@ -79,9 +65,6 @@ public:
         Bat(BAT_RED_SPRITE, Color::RED,
             board.getInitBatPos(Color::RED, Ally::TWO), BAT_SIZE / 2.0);
     this->curRedBat = &redBatOne;
-
-    this->blueBuff = Buff{};
-    this->redBuff = Buff{};
 
     this->puck = Puck(PUCK_SPRITE, board.getInitPuckPos(), PUCK_SIZE / 2.0);
 
@@ -106,31 +89,6 @@ public:
     }
     prevFPressed = FPressed;
     prevKPressed = KPressed;
-    /// Activate buffs
-    if (blueBar.isFull() && keyStates.isTriggered(SDLK_g)) {
-      blueBuff = drawBuff();
-      blueBar.setPercent(0);
-    }
-    if (redBar.isFull() && keyStates.isTriggered(SDLK_l)) {
-      redBuff = drawBuff();
-      redBar.setPercent(0);
-    }
-    /// Handle buffs
-    if (blueBuff.type == BuffType::WIND && blueBuff.consumeDurational(curMs)) {
-      puck.addVelocity({0.001f * deltaMs, 0});
-    } else if (blueBuff.type == BuffType::RANDOMIZATION &&
-               blueBuff.consumeOneShot()) {
-      redBatOne.setPosition(board.getRandomBatPos(Color::RED));
-      redBatTwo.setPosition(board.getRandomBatPos(Color::RED));
-    }
-    if (redBuff.type == BuffType::WIND && redBuff.consumeDurational(curMs)) {
-      puck.addVelocity({-0.001f * deltaMs, 0});
-    } else if (redBuff.type == BuffType::RANDOMIZATION &&
-               redBuff.consumeOneShot()) {
-      blueBatOne.setPosition(board.getRandomBatPos(Color::BLUE));
-      blueBatTwo.setPosition(board.getRandomBatPos(Color::BLUE));
-    }
-
     /// Set velocity of bats
     blueBatOne.setVelocity({0.0, 0.0});
     blueBatTwo.setVelocity({0.0, 0.0});
@@ -169,15 +127,6 @@ public:
       /// Set position
       curBlueBat->move(deltaMs / 50.0);
       curRedBat->move(deltaMs / 50.0);
-
-      if (puck.doesCollide(*curBlueBat)) {
-        blueBar.addPercent(0.0004);
-      }
-
-      if (puck.doesCollide(*curRedBat)) {
-        redBar.addPercent(0.0004);
-      }
-
       puck.move(deltaMs / 50.0);
 
       if (board.doesPuckCollideWithGoal(Color::BLUE, puck)) {
@@ -210,8 +159,6 @@ public:
     redBatOne.draw(RENDERER);
     redBatTwo.draw(RENDERER);
     puck.draw(RENDERER);
-    redBar.draw(RENDERER, deltaMs);
-    blueBar.draw(RENDERER, deltaMs);
     SDL_RenderCopy(RENDERER,
                    loadText(RENDERER, FONT, std::to_string(stat.blue),
                             createColor(0x00, 0x00, 0xFF, 0xFF)),
