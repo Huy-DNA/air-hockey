@@ -86,18 +86,18 @@ public:
 
     // Update states
     /// Switch pieces
-    static bool prevQPressed = false;
-    static bool prevLPressed = false;
-    const bool QPressed = keyStates.isTriggered(SDLK_q);
-    const bool LPressed = keyStates.isTriggered(SDLK_l);
-    if (!prevQPressed && QPressed) {
+    static bool prevFPressed = false;
+    static bool prevKPressed = false;
+    const bool FPressed = keyStates.isTriggered(SDLK_f);
+    const bool KPressed = keyStates.isTriggered(SDLK_k);
+    if (!prevFPressed && FPressed) {
       curBlueBat = curBlueBat == &blueBatOne ? &blueBatTwo : &blueBatOne;
     }
-    if (!prevLPressed && LPressed) {
+    if (!prevKPressed && KPressed) {
       curRedBat = curRedBat == &redBatOne ? &redBatTwo : &redBatOne;
     }
-    prevQPressed = QPressed;
-    prevLPressed = LPressed;
+    prevFPressed = FPressed;
+    prevKPressed = KPressed;
     /// Set velocity of bats
     blueBatOne.setVelocity({0.0, 0.0});
     blueBatTwo.setVelocity({0.0, 0.0});
