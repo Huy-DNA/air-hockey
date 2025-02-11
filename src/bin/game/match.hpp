@@ -171,11 +171,11 @@ public:
       curRedBat->move(deltaMs / 50.0);
 
       if (puck.doesCollide(*curBlueBat)) {
-        blueBar.addPercent(0.05);
+        blueBar.addPercent(0.0004);
       }
 
       if (puck.doesCollide(*curRedBat)) {
-        redBar.addPercent(0.05);
+        redBar.addPercent(0.0004);
       }
 
       puck.move(deltaMs / 50.0);
