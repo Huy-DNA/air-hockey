@@ -4,7 +4,7 @@
 #include "buff.hpp"
 #include "collision.hpp"
 #include "constants.hpp"
-#include "energy_bar.hpp"
+#include "animation/energy_bar.hpp"
 #include "keystate.hpp"
 #include "object/bat.hpp"
 #include "object/puck.hpp"
@@ -47,10 +47,12 @@ private:
 
   EnergyBar blueBar = EnergyBar(
       createRect(10, SCREEN_HEIGHT - FIELD_HEIGHT - 75, SCREEN_WIDTH / 3, 50),
-      createColor(0x00, 0x00, 0xFF, 0xFF));
+      createColor(0x00, 0x00, 0xFF, 0xFF),
+      0.001);
   EnergyBar redBar = EnergyBar(
       createRect(920, SCREEN_HEIGHT - FIELD_HEIGHT - 75, SCREEN_WIDTH / 3, 50),
-      createColor(0xFF, 0x00, 0x00, 0xFF));
+      createColor(0xFF, 0x00, 0x00, 0xFF),
+      0.001);
 
   Buff blueBuff = Buff{};
   Buff redBuff = Buff{};
@@ -208,8 +210,8 @@ public:
     redBatOne.draw(RENDERER);
     redBatTwo.draw(RENDERER);
     puck.draw(RENDERER);
-    redBar.draw(RENDERER);
-    blueBar.draw(RENDERER);
+    redBar.draw(RENDERER, deltaMs);
+    blueBar.draw(RENDERER, deltaMs);
     SDL_RenderCopy(RENDERER,
                    loadText(RENDERER, FONT, std::to_string(stat.blue),
                             createColor(0x00, 0x00, 0xFF, 0xFF)),
