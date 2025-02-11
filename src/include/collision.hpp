@@ -18,8 +18,14 @@ void uncollide(std::array<Bat *, n> bats, Puck &puck, Board &board) {
     for (const Bat *bat : bats) {
       doesCollide = doesCollide || bat->doesCollide(puck);
     }
+    for (int i = 0; i < n; ++i) {
+      for (int j = i + 1; j < n; ++j) {
+        doesCollide = doesCollide || bats[i]->doesCollide(*bats[j]);
+      }
+    }
     if (!doesCollide)
       break;
+
     for (Bat *bat : bats) {
       uncollideBatAndPuck(*bat, puck);
     }
@@ -66,6 +72,7 @@ static void uncollideBatAndBat(Bat &bat1, Bat &bat2) {
   const float sumRadius = bat1.getSize() + bat2.getSize();
   const float diff = sumRadius - dist;
 
-  bat1.setPosition(bat1.getPosition() - distVec.normalize() * diff / 10);
-  bat2.setPosition(bat2.getPosition() + distVec.normalize() * diff);
+  const bool isBat1Moving = bat1.getVelocity().length() > 0;
+  bat1.setPosition(bat1.getPosition() - distVec.normalize() * (diff * isBat1Moving));
+  bat2.setPosition(bat2.getPosition() + distVec.normalize() * (diff * !isBat1Moving));
 }
