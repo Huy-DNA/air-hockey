@@ -151,7 +151,6 @@ public:
       /// Set position
       curBlueBat->move(deltaMs / 50.0);
       curRedBat->move(deltaMs / 50.0);
-      puck.move(deltaMs / 50.0);
 
       if (puck.doesCollide(*curBlueBat)) {
         blueBar.addPercent(0.1);
@@ -160,6 +159,8 @@ public:
       if (puck.doesCollide(*curRedBat)) {
         redBar.addPercent(0.1);
       }
+
+      puck.move(deltaMs / 50.0);
 
       if (board.doesPuckCollideWithGoal(Color::BLUE, puck)) {
         return Winner::RED;
