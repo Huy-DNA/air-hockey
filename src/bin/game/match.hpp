@@ -87,7 +87,11 @@ public:
     /// Update wind
     if (curMs - windMs > 5000) {
       windMs = curMs;
-      windBar.setWindRate((rand() * 1.0 / RAND_MAX - 0.5) * 2);
+      if (windBar.getWindRate() != 0) {
+        windBar.setWindRate(0);
+      } else {
+        windBar.setWindRate((rand() * 1.0 / RAND_MAX - 0.5) * 2);
+      }
     }
     puck.addVelocity(windBar.getWindVelocity() * deltaMs / 1000);
     /// Switch pieces
