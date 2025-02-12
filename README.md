@@ -5,6 +5,8 @@ First time:
 - Using CMake.
 - Organizing a C++ project.
 
+![image](https://github.com/user-attachments/assets/8eeeada8-a011-485b-b2f7-2f7f60a3d1c4)
+
 All because of school project >:(
 
 ## Environment setup
