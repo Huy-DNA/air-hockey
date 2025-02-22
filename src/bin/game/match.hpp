@@ -8,6 +8,7 @@
 #include "object/puck.hpp"
 #include "piece.hpp"
 #include "sdl_utils.hpp"
+#include "state.hpp"
 #include "windbar.hpp"
 #include <SDL_keycode.h>
 #include <SDL_render.h>
@@ -21,13 +22,6 @@ struct Stat {
 };
 
 class Match {
-public:
-  enum class Winner {
-    NONE,
-    RED,
-    BLUE,
-  };
-
 private:
   Stat stat{0, 0};
 
@@ -62,7 +56,6 @@ private:
 
 public:
   void softReset() {
-    this->stat = {0, 0};
     this->blueBatOne =
         Bat(BAT_BLUE_SPRITE, Color::BLUE,
             board.getInitBatPos(Color::BLUE, Ally::ONE), BAT_SIZE / 2.0);
@@ -88,7 +81,7 @@ public:
     this->prevMs = SDL_GetTicks64();
   }
 
-  Winner step(const KeyState &keyStates) {
+  GameState step(const KeyState &keyStates) {
     unsigned long long curMs = SDL_GetTicks64();
     unsigned long long deltaMs = curMs - this->prevMs;
 
@@ -158,12 +151,12 @@ public:
 
       if (board.doesPuckCollideWithGoal(Color::BLUE, puck)) {
         this->stat.blue += 1;
-        return Winner::NONE;
+        return GameState::START_MATCH;
       }
 
       if (board.doesPuckCollideWithGoal(Color::RED, puck)) {
         this->stat.red += 1;
-        return Winner::NONE;
+        return GameState::START_MATCH;
       }
 
       /// Reflect
@@ -204,6 +197,6 @@ public:
       ;
     this->prevMs = curMs;
 
-    return Winner::NONE;
+    return GameState::IN_MATCH;
   }
 };

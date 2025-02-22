@@ -88,7 +88,7 @@ int main(int argc, const char *argv[]) {
       break;
     }
     case GameState::IN_MATCH: {
-      const Match::Winner winner = match.step(keyState);
+      state = match.step(keyState);
       break;
     }
     case GameState::QUIT: {
