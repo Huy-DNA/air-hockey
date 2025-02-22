@@ -1,6 +1,7 @@
 #include "constants.hpp"
 #include "keystate.hpp"
 #include "match.hpp"
+#include "menu.hpp"
 #include "state.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -35,8 +36,9 @@ int main(int argc, const char *argv[]) {
 
   KeyState keyStates;
   Stat stat{0, 0};
+  MainMenu menu;
   Match match;
-  GameState state = GameState::NO_MATCH;
+  GameState state = GameState::MAIN_MENU;
   while (true) {
     // Event handling
     SDL_Event e;
@@ -53,7 +55,11 @@ int main(int argc, const char *argv[]) {
 
     // Switch behavior based on game state
     switch (state) {
-    case GameState::NO_MATCH: {
+    case GameState::MAIN_MENU: {
+      menu.draw();
+      break;
+    }
+    case GameState::START_MATCH: {
       match.softReset();
       state = GameState::IN_MATCH;
       break;
@@ -61,10 +67,10 @@ int main(int argc, const char *argv[]) {
     case GameState::IN_MATCH: {
       const Match::Winner winner = match.step(stat, keyStates);
       if (winner == Match::Winner::RED) {
-        state = GameState::NO_MATCH;
+        state = GameState::START_MATCH;
         ++stat.red;
       } else if (winner == Match::Winner::BLUE) {
-        state = GameState::NO_MATCH;
+        state = GameState::START_MATCH;
         ++stat.blue;
       }
       break;

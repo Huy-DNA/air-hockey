@@ -1,7 +1,8 @@
 #pragma once
 
 enum class GameState {
-  NO_MATCH,
+  MAIN_MENU,
+  START_MATCH,
   IN_MATCH,
   QUIT,
 };
