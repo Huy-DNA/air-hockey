@@ -91,7 +91,7 @@ The [`Board`](/src/include/board.hpp) is actually a box, with additional methods
 
 ### Vector2d
 
-The class [`Vector2d`] is straightforward.
+The class [`Vector2d`](/src/include/vector2d.hpp) is straightforward.
 
 ## Collision and Reflection
 
