@@ -2,6 +2,7 @@
 #include "keystate.hpp"
 #include "match.hpp"
 #include "menu.hpp"
+#include "mousestate.hpp"
 #include "state.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -11,6 +12,7 @@
 #include <SDL2/SDL_video.h>
 #include <SDL_events.h>
 #include <SDL_keycode.h>
+#include <SDL_mouse.h>
 #include <SDL_timer.h>
 #include <cstdio>
 
@@ -34,7 +36,8 @@ int main(int argc, const char *argv[]) {
 
   SDL_SetWindowIcon(WINDOW, ICON_SURFACE);
 
-  KeyState keyStates;
+  KeyState keyState;
+  MouseState mouseState;
   MainMenu menu;
   Match match;
   GameState state = GameState::MAIN_MENU;
@@ -46,16 +49,34 @@ int main(int argc, const char *argv[]) {
         state = GameState::QUIT;
       } else if (e.type == SDL_KEYDOWN) {
         // Collect key events
-        keyStates.set(e.key.keysym.sym);
+        keyState.set(e.key.keysym.sym);
       } else if (e.type == SDL_KEYUP) {
-        keyStates.reset(e.key.keysym.sym);
+        keyState.reset(e.key.keysym.sym);
+      } else if (e.type == SDL_MOUSEBUTTONDOWN) {
+        if (e.button.button == SDL_BUTTON_LEFT) {
+          mouseState.setLeft(MouseState::PRESSED);
+        } else {
+          mouseState.setRight(MouseState::PRESSED);
+        }
+      } else if (e.type == SDL_MOUSEBUTTONUP) {
+        if (e.button.button == SDL_BUTTON_LEFT) {
+          mouseState.setLeft(MouseState::UNPRESSED);
+        } else {
+          mouseState.setRight(MouseState::UNPRESSED);
+        }
       }
+    }
+    {
+      int x;
+      int y;
+      SDL_GetMouseState(&x, &y);
+      mouseState.setPosition({x * 1.0f, y * 1.0f});
     }
 
     // Switch behavior based on game state
     switch (state) {
     case GameState::MAIN_MENU: {
-      menu.draw();
+      menu.step(mouseState);
       break;
     }
     case GameState::START_MATCH: {
@@ -64,7 +85,7 @@ int main(int argc, const char *argv[]) {
       break;
     }
     case GameState::IN_MATCH: {
-      const Match::Winner winner = match.step(keyStates);
+      const Match::Winner winner = match.step(keyState);
       break;
     }
     case GameState::QUIT: {
