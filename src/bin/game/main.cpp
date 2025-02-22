@@ -83,6 +83,11 @@ int main(int argc, const char *argv[]) {
       break;
     }
     case GameState::START_MATCH: {
+      match.hardReset();
+      state = GameState::IN_MATCH;
+      break;
+    }
+    case GameState::CONTINUE_MATCH: {
       match.softReset();
       state = GameState::IN_MATCH;
       break;

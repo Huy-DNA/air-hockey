@@ -55,6 +55,11 @@ private:
   unsigned long long prevMs = SDL_GetTicks64();
 
 public:
+  void hardReset() {
+    this->softReset();
+    this->stat = {0, 0};
+  }
+
   void softReset() {
     this->blueBatOne =
         Bat(BAT_BLUE_SPRITE, Color::BLUE,
@@ -151,12 +156,12 @@ public:
 
       if (board.doesPuckCollideWithGoal(Color::BLUE, puck)) {
         this->stat.blue += 1;
-        return GameState::START_MATCH;
+        return GameState::CONTINUE_MATCH;
       }
 
       if (board.doesPuckCollideWithGoal(Color::RED, puck)) {
         this->stat.red += 1;
-        return GameState::START_MATCH;
+        return GameState::CONTINUE_MATCH;
       }
 
       /// Reflect
