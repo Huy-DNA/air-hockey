@@ -1,9 +1,11 @@
 #pragma once
 
 #include "board.hpp"
+#include "button.hpp"
 #include "collision.hpp"
 #include "constants.hpp"
 #include "keystate.hpp"
+#include "mousestate.hpp"
 #include "object/bat.hpp"
 #include "object/puck.hpp"
 #include "piece.hpp"
@@ -23,6 +25,10 @@ struct Stat {
 
 class Match {
 private:
+  const inline static Button MENU_BUTTON = Button(
+      createColor(0x00, 0x00, 0x00, 0xFF), createColor(0x00, 0xFF, 0xFF, 0xFF),
+      FONT, createRect(SCREEN_WIDTH / 2 + 200, 25, 100, 50), "MENU");
+
   Stat stat{0, 0};
 
   Board board = Board(FIELD_TEXTURE, 0, 100, FIELD_WIDTH, FIELD_HEIGHT);
@@ -86,11 +92,15 @@ public:
     this->prevMs = SDL_GetTicks64();
   }
 
-  GameState step(const KeyState &keyStates) {
+  GameState step(const KeyState &keyState, const MouseState& mouseState) {
     unsigned long long curMs = SDL_GetTicks64();
     unsigned long long deltaMs = curMs - this->prevMs;
 
     // Update states
+    if (MENU_BUTTON.isClicked(mouseState)) {
+      return GameState::MAIN_MENU;
+    }
+
     /// Update wind
     if (curMs - windMs > 5000) {
       windMs = curMs;
@@ -104,8 +114,8 @@ public:
     /// Switch pieces
     static bool prevFPressed = false;
     static bool prevKPressed = false;
-    const bool FPressed = keyStates.isTriggered(SDLK_f);
-    const bool KPressed = keyStates.isTriggered(SDLK_k);
+    const bool FPressed = keyState.isTriggered(SDLK_f);
+    const bool KPressed = keyState.isTriggered(SDLK_k);
     if (!prevFPressed && FPressed) {
       curBlueBat = curBlueBat == &blueBatOne ? &blueBatTwo : &blueBatOne;
     }
@@ -117,31 +127,31 @@ public:
     /// Set velocity of bats
     blueBatOne.setVelocity({0.0, 0.0});
     blueBatTwo.setVelocity({0.0, 0.0});
-    if (keyStates.isTriggered(SDLK_a)) {
+    if (keyState.isTriggered(SDLK_a)) {
       curBlueBat->addVelocity({-1.0, 0.0});
     }
-    if (keyStates.isTriggered(SDLK_d)) {
+    if (keyState.isTriggered(SDLK_d)) {
       curBlueBat->addVelocity({1.0, 0.0});
     }
-    if (keyStates.isTriggered(SDLK_w)) {
+    if (keyState.isTriggered(SDLK_w)) {
       curBlueBat->addVelocity({0.0, -1.0});
     }
-    if (keyStates.isTriggered(SDLK_s)) {
+    if (keyState.isTriggered(SDLK_s)) {
       curBlueBat->addVelocity({0.0, 1.0});
     }
 
     redBatOne.setVelocity({0.0, 0.0});
     redBatTwo.setVelocity({0.0, 0.0});
-    if (keyStates.isTriggered(SDLK_LEFT)) {
+    if (keyState.isTriggered(SDLK_LEFT)) {
       curRedBat->addVelocity({-1.0, 0.0});
     }
-    if (keyStates.isTriggered(SDLK_RIGHT)) {
+    if (keyState.isTriggered(SDLK_RIGHT)) {
       curRedBat->addVelocity({1.0, 0.0});
     }
-    if (keyStates.isTriggered(SDLK_UP)) {
+    if (keyState.isTriggered(SDLK_UP)) {
       curRedBat->addVelocity({0.0, -1.0});
     }
-    if (keyStates.isTriggered(SDLK_DOWN)) {
+    if (keyState.isTriggered(SDLK_DOWN)) {
       curRedBat->addVelocity({0.0, 1.0});
     }
 
@@ -187,6 +197,7 @@ public:
     redBatTwo.draw(RENDERER);
     puck.draw(RENDERER);
     windBar.draw(RENDERER);
+    MENU_BUTTON.draw(RENDERER);
     SDL_RenderCopy(RENDERER,
                    loadText(RENDERER, FONT, std::to_string(stat.blue),
                             createColor(0x00, 0x00, 0xFF, 0xFF)),
