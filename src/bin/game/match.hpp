@@ -45,7 +45,8 @@ private:
 
   Puck puck = Puck(PUCK_SPRITE, board.getInitPuckPos(), PUCK_SIZE / 2.0);
 
-  WindBar windBar = WindBar({SCREEN_WIDTH / 2.0, 50});
+  WindBar windBar = WindBar(WIND_LEFT_TEXTURE, WIND_RIGHT_TEXTURE, FONT,
+                            {SCREEN_WIDTH / 2.0, 50});
   unsigned long long windMs = SDL_GetTicks64();
 
   const SDL_Rect blueScoreRect = createRect(board.getLeft() + 70, 25, 75, 75);
@@ -73,7 +74,8 @@ public:
 
     this->puck = Puck(PUCK_SPRITE, board.getInitPuckPos(), PUCK_SIZE / 2.0);
 
-    this->windBar = WindBar({SCREEN_WIDTH / 2.0, 50});
+    this->windBar = WindBar(WIND_LEFT_TEXTURE, WIND_RIGHT_TEXTURE, FONT,
+                            {SCREEN_WIDTH / 2.0, 50});
     this->windMs = SDL_GetTicks64();
 
     this->prevMs = SDL_GetTicks64();
