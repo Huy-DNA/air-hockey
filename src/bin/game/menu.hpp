@@ -3,8 +3,10 @@
 #include "board.hpp"
 #include "button.hpp"
 #include "constants.hpp"
+#include "mousestate.hpp"
 #include "object/bat.hpp"
 #include "sdl_utils.hpp"
+#include "state.hpp"
 #include <SDL_pixels.h>
 #include <SDL_render.h>
 
@@ -42,7 +44,15 @@ private:
           {SCREEN_WIDTH / 2.0 + 180 + BAT_SIZE / 2.0 + 10, 50}, BAT_SIZE / 2.0);
 
 public:
-  void draw() const {
+  GameState step(const MouseState& mouseState) const {
+    if (START_GAME_BUTTON.isClicked(mouseState)) {
+      return GameState::START_MATCH;
+    }
+
+    if (INSTRUCTION_BUTTON.isClicked(mouseState)) {
+      return GameState::INSTRUCTION;
+    }
+
     SDL_SetRenderDrawColor(RENDERER, 0xFF, 0xFF, 0xFF, 0xFF);
     SDL_RenderClear(RENDERER);
 
@@ -58,5 +68,7 @@ public:
                    &MainMenu::GAME_NAME_RECT);
 
     SDL_RenderPresent(RENDERER);
+
+    return GameState::MAIN_MENU;
   }
 };

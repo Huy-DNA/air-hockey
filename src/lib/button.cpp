@@ -1,5 +1,6 @@
 #include "button.hpp"
 #include "sdl_utils.hpp"
+#include "vector2d.hpp"
 #include <SDL_pixels.h>
 #include <SDL_rect.h>
 #include <SDL_render.h>
@@ -27,4 +28,14 @@ void Button::draw(SDL_Renderer *renderer) const {
                                   this->_rect.w - 20, this->_rect.h - 20);
   SDL_RenderCopy(renderer, text_texture, NULL, &text_rect);
   SDL_DestroyTexture(text_texture);
+}
+
+bool Button::isClicked(const MouseState &state) const {
+  if (!state.isLeftClicked())
+    return false;
+  Vector2d position = state.getPosition();
+  return position.x >= this->_rect.x &&
+         position.x <= this->_rect.x + this->_rect.w &&
+         position.y >= this->_rect.y &&
+         position.y <= this->_rect.y + this->_rect.h;
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "mousestate.hpp"
 #include <SDL_pixels.h>
 #include <SDL_rect.h>
 #include <SDL_render.h>
@@ -19,4 +20,5 @@ public:
   Button(SDL_Color text_color, SDL_Color background_color, TTF_Font *font,
          SDL_Rect rect, const std::string &text);
   void draw(SDL_Renderer *renderer) const;
+  bool isClicked(const MouseState&) const;
 };

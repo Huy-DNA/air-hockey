@@ -76,7 +76,10 @@ int main(int argc, const char *argv[]) {
     // Switch behavior based on game state
     switch (state) {
     case GameState::MAIN_MENU: {
-      menu.step(mouseState);
+      state = menu.step(mouseState);
+      break;
+    }
+    case GameState::INSTRUCTION: {
       break;
     }
     case GameState::START_MATCH: {
