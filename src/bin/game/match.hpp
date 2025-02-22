@@ -8,13 +8,17 @@
 #include "object/puck.hpp"
 #include "piece.hpp"
 #include "sdl_utils.hpp"
-#include "state.hpp"
 #include "windbar.hpp"
 #include <SDL_keycode.h>
 #include <SDL_render.h>
 #include <SDL_timer.h>
 #include <array>
 #include <cstdlib>
+
+struct Stat {
+  unsigned int red;
+  unsigned int blue;
+};
 
 class Match {
 public:
@@ -25,6 +29,8 @@ public:
   };
 
 private:
+  Stat stat{0, 0};
+
   Board board = Board(FIELD_TEXTURE, 0, 100, FIELD_WIDTH, FIELD_HEIGHT);
 
   Bat blueBatOne =
@@ -56,6 +62,7 @@ private:
 
 public:
   void softReset() {
+    this->stat = {0, 0};
     this->blueBatOne =
         Bat(BAT_BLUE_SPRITE, Color::BLUE,
             board.getInitBatPos(Color::BLUE, Ally::ONE), BAT_SIZE / 2.0);
@@ -81,7 +88,7 @@ public:
     this->prevMs = SDL_GetTicks64();
   }
 
-  Winner step(Stat stat, const KeyState &keyStates) {
+  Winner step(const KeyState &keyStates) {
     unsigned long long curMs = SDL_GetTicks64();
     unsigned long long deltaMs = curMs - this->prevMs;
 
@@ -150,11 +157,13 @@ public:
       puck.move(deltaMs / 50.0);
 
       if (board.doesPuckCollideWithGoal(Color::BLUE, puck)) {
-        return Winner::RED;
+        this->stat.blue += 1;
+        return Winner::NONE;
       }
 
       if (board.doesPuckCollideWithGoal(Color::RED, puck)) {
-        return Winner::BLUE;
+        this->stat.red += 1;
+        return Winner::NONE;
       }
 
       /// Reflect

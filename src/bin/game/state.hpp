@@ -6,8 +6,3 @@ enum class GameState {
   IN_MATCH,
   QUIT,
 };
-
-struct Stat {
-  unsigned int red;
-  unsigned int blue;
-};

@@ -35,7 +35,6 @@ int main(int argc, const char *argv[]) {
   SDL_SetWindowIcon(WINDOW, ICON_SURFACE);
 
   KeyState keyStates;
-  Stat stat{0, 0};
   MainMenu menu;
   Match match;
   GameState state = GameState::MAIN_MENU;
@@ -65,14 +64,7 @@ int main(int argc, const char *argv[]) {
       break;
     }
     case GameState::IN_MATCH: {
-      const Match::Winner winner = match.step(stat, keyStates);
-      if (winner == Match::Winner::RED) {
-        state = GameState::START_MATCH;
-        ++stat.red;
-      } else if (winner == Match::Winner::BLUE) {
-        state = GameState::START_MATCH;
-        ++stat.blue;
-      }
+      const Match::Winner winner = match.step(keyStates);
       break;
     }
     case GameState::QUIT: {
