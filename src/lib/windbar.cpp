@@ -24,11 +24,11 @@ Vector2d WindBar::getWindVelocity() const {
 void WindBar::draw(SDL_Renderer *renderer) const {
   const SDL_Rect numberRect =
       createRect(_position.x - 30, _position.y - 25, 60, 75);
-  SDL_RenderCopy(renderer,
-                 loadText(renderer, this->_font,
-                          std::to_string(abs((int)(this->_wind_rate * 10))),
-                          createColor(0x63, 0xC5, 0xDA, 0xFF)),
-                 NULL, &numberRect);
+  SDL_Texture *text = loadText(
+      renderer, this->_font, std::to_string(abs((int)(this->_wind_rate * 10))),
+      createColor(0x63, 0xC5, 0xDA, 0xFF));
+  SDL_RenderCopy(renderer, text, NULL, &numberRect);
+  SDL_DestroyTexture(text);
   if (this->_wind_rate < 0) {
     const SDL_Rect leftRect =
         createRect(_position.x - 110, _position.y - 30, 70, 75);
