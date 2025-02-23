@@ -1,4 +1,5 @@
 #include "constants.hpp"
+#include "instruction.hpp"
 #include "keystate.hpp"
 #include "match.hpp"
 #include "menu.hpp"
@@ -39,6 +40,7 @@ int main(int argc, const char *argv[]) {
   KeyState keyState;
   MouseState mouseState;
   MainMenu menu;
+  Instruction instruction;
   Match match;
   GameState state = GameState::MAIN_MENU;
   while (true) {
@@ -80,6 +82,7 @@ int main(int argc, const char *argv[]) {
       break;
     }
     case GameState::INSTRUCTION: {
+      state = instruction.step(mouseState);
       break;
     }
     case GameState::START_MATCH: {
