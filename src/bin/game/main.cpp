@@ -4,6 +4,7 @@
 #include "match.hpp"
 #include "menu.hpp"
 #include "mousestate.hpp"
+#include "sdl_utils.hpp"
 #include "state.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>

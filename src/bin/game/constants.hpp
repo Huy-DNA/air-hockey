@@ -2,6 +2,7 @@
 
 #include "sdl_utils.hpp"
 #include "sprite.hpp"
+#include <SDL_mixer.h>
 #include <SDL_render.h>
 #include <SDL_surface.h>
 #include <SDL_ttf.h>
@@ -53,6 +54,9 @@ const inline std::string DOWN_KEY_SPRITE_PATH =
 const inline std::string K_KEY_SPRITE_PATH =
     std::string(ASSETS_PATH) + "/keys/k.png";
 
+const inline std::string SMACK_SOUND_PATH =
+    std::string(ASSETS_PATH) + "/smack.wav";
+
 inline SDL_Surface *const ICON_SURFACE = loadImage(BAT_BLUE_SPRITE_PATH);
 
 inline SDL_Texture *const PUCK_TEXTURE =
@@ -99,3 +103,5 @@ const inline Sprite PUCK_SPRITE = Sprite(
 
 inline TTF_Font *const FONT =
     loadFontOrFail(std::string(ASSETS_PATH) + "/font.ttf", 200);
+
+inline static Mix_Chunk *const SMACK_SOUND = loadMixerChunkOrFail(SMACK_SOUND_PATH);

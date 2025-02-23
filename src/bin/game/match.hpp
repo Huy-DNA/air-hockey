@@ -93,7 +93,7 @@ public:
     this->prevMs = SDL_GetTicks64();
   }
 
-  GameState step(const KeyState &keyState, const MouseState& mouseState) {
+  GameState step(const KeyState &keyState, const MouseState &mouseState) {
     unsigned long long curMs = SDL_GetTicks64();
     unsigned long long deltaMs = curMs - this->prevMs;
 
@@ -156,6 +156,7 @@ public:
       curRedBat->addVelocity({0.0, 1.0});
     }
 
+    bool soundPlayed = false;
     // Split the movement & collision over the time period (50 rounds)
     // To prevent the phenomenon that deltaMs is too large, making the puck
     // penetrate through a colliding bat as the jump is too large
@@ -164,6 +165,17 @@ public:
       curBlueBat->move(deltaMs / 50.0);
       curRedBat->move(deltaMs / 50.0);
       puck.move(deltaMs / 50.0);
+
+      /// Play sound on collision
+      if ((puck.doesCollide(redBatOne) || puck.doesCollide(redBatTwo) ||
+           puck.doesCollide(blueBatOne) || puck.doesCollide(blueBatTwo) ||
+           puck.doesCollideDown(board) || puck.doesCollideLeft(board) ||
+           puck.doesCollideRight(board) || puck.doesCollideUp(board)) &&
+          !soundPlayed) {
+        soundPlayed = true;
+        Mix_HaltChannel(1);
+        Mix_PlayChannel(1, SMACK_SOUND, 1);
+      }
 
       if (board.doesPuckCollideWithGoal(Color::BLUE, puck)) {
         this->stat.blue += 1;
