@@ -165,3 +165,13 @@ Mix_Chunk *loadMixerChunkOrFail(std::string path) {
   }
   return chunk;
 }
+
+Mix_Music *loadMixerMusicOrFail(std::string path) {
+  initSDL();
+  Mix_Music *music = Mix_LoadMUS(path.c_str());
+  if (!music) {
+    printf("Unable to load mixer music! SDL_mixer Error: %s\n", Mix_GetError());
+    exit(1);
+  }
+  return music;
+}

@@ -54,6 +54,9 @@ const inline std::string DOWN_KEY_SPRITE_PATH =
 const inline std::string K_KEY_SPRITE_PATH =
     std::string(ASSETS_PATH) + "/keys/k.png";
 
+const inline std::string BACKGROUND_MUSIC_PATH =
+    std::string(ASSETS_PATH) + "/background.wav";
+
 const inline std::string SMACK_SOUND_PATH =
     std::string(ASSETS_PATH) + "/smack.wav";
 
@@ -104,4 +107,7 @@ const inline Sprite PUCK_SPRITE = Sprite(
 inline TTF_Font *const FONT =
     loadFontOrFail(std::string(ASSETS_PATH) + "/font.ttf", 200);
 
-inline static Mix_Chunk *const SMACK_SOUND = loadMixerChunkOrFail(SMACK_SOUND_PATH);
+inline static Mix_Chunk *const SMACK_SOUND =
+    loadMixerChunkOrFail(SMACK_SOUND_PATH);
+inline static Mix_Music *const BACKGROUND_SOUND =
+    loadMixerMusicOrFail(BACKGROUND_MUSIC_PATH);

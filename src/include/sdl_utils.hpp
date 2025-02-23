@@ -20,3 +20,4 @@ SDL_Window *createWindowOrFail(int w, int h);
 SDL_Renderer *createRendererFromWindowOrFail(SDL_Window *window);
 TTF_Font* loadFontOrFail(std::string path, int ptsize);
 Mix_Chunk* loadMixerChunkOrFail(std::string path);
+Mix_Music* loadMixerMusicOrFail(std::string path);

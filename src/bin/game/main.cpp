@@ -24,6 +24,8 @@ int main(int argc, const char *argv[]) {
 
   SDL_SetWindowIcon(WINDOW, ICON_SURFACE);
 
+  Mix_PlayMusic(BACKGROUND_SOUND, -1);
+
   KeyState keyState;
   MouseState mouseState;
   MainMenu menu;
