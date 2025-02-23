@@ -34,6 +34,10 @@ private:
       MainMenu::VIOLET_COLOR, MainMenu::WHITE_COLOR, FONT,
       createRect(SCREEN_WIDTH / 2.0 - 120, SCREEN_HEIGHT / 2 + 75, 240, 50),
       "Instruction");
+  const inline static Button QUIT_BUTTON = Button(
+      MainMenu::VIOLET_COLOR, MainMenu::WHITE_COLOR, FONT,
+      createRect(SCREEN_WIDTH / 2.0 - 60, SCREEN_HEIGHT / 2 + 150, 100, 50),
+      "Quit");
 
   const inline static Bat BLUE_BAT =
       Bat(BAT_BLUE_SPRITE, Color::BLUE,
@@ -53,6 +57,10 @@ public:
       return GameState::INSTRUCTION;
     }
 
+    if (QUIT_BUTTON.isClicked(mouseState)) {
+      return GameState::QUIT;
+    }
+
     SDL_SetRenderDrawColor(RENDERER, 0xFF, 0xFF, 0xFF, 0xFF);
     SDL_RenderClear(RENDERER);
 
@@ -63,6 +71,7 @@ public:
 
     START_GAME_BUTTON.draw(RENDERER);
     INSTRUCTION_BUTTON.draw(RENDERER);
+    QUIT_BUTTON.draw(RENDERER);
 
     SDL_RenderCopy(RENDERER, MainMenu::GAME_NAME_TEXTURE, NULL,
                    &MainMenu::GAME_NAME_RECT);
