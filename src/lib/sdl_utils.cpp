@@ -1,16 +1,65 @@
 #include "sdl_utils.hpp"
 #include <SDL_image.h>
+#include <SDL_mixer.h>
 #include <SDL_pixels.h>
 #include <SDL_rect.h>
 #include <SDL_render.h>
 #include <SDL_ttf.h>
 #include <SDL_video.h>
+#include <cstdio>
+
+static bool shouldInit = true;
+
+void initSDL() {
+  if (!shouldInit) {
+    return;
+  }
+
+  if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO) < 0) {
+    printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
+    exit(1);
+  }
+  if (TTF_Init() < 0) {
+    printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+    exit(1);
+  }
+  if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) < 0) {
+    printf("SDL_img could not initialize! SDL_img Error: %s\n", IMG_GetError());
+    exit(1);
+  }
+  if (Mix_Init(MIX_INIT_MP3) < 0) {
+    printf("SDL_img could not initialize! SDL_img Error: %s\n", Mix_GetError());
+    exit(1);
+  }
+  if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+    printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n",
+           Mix_GetError());
+    exit(1);
+  }
+
+  shouldInit = false;
+}
+
+void finalizeSDL() {
+  if (shouldInit) {
+    return;
+  }
+
+  IMG_Quit();
+  Mix_Quit();
+  TTF_Quit();
+  SDL_Quit();
+
+  shouldInit = true;
+}
 
 SDL_Surface *loadImage(const std::string path) {
+  initSDL();
   return IMG_Load(path.c_str());
 }
 
 SDL_Texture *loadTexture(SDL_Renderer *renderer, const std::string path) {
+  initSDL();
   SDL_Surface *loadedSurface = loadImage(path);
   if (loadedSurface == NULL) {
     printf("Unable to load image %s! Error: %s\n", path.c_str(),
@@ -48,6 +97,7 @@ SDL_Color createColor(int r, int g, int b, int a) {
 }
 
 SDL_Window *createWindowOrFail(int w, int h) {
+  initSDL();
   SDL_Window *window =
       SDL_CreateWindow("Air hockey", SDL_WINDOWPOS_UNDEFINED,
                        SDL_WINDOWPOS_UNDEFINED, w, h, SDL_WINDOW_SHOWN);
@@ -60,6 +110,7 @@ SDL_Window *createWindowOrFail(int w, int h) {
 }
 
 SDL_Renderer *createRendererFromWindowOrFail(SDL_Window *window) {
+  initSDL();
   SDL_Renderer *renderer =
       SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
   if (renderer == NULL) {
@@ -75,6 +126,7 @@ SDL_Renderer *createRendererFromWindowOrFail(SDL_Window *window) {
 
 SDL_Texture *loadText(SDL_Renderer *renderer, TTF_Font *font, std::string text,
                       SDL_Color color) {
+  initSDL();
   SDL_Surface *textSurface = TTF_RenderText_Solid(font, text.c_str(), color);
   if (textSurface == NULL) {
     printf("Unable to render text surface! SDL_ttf Error: %s\n",
@@ -91,6 +143,7 @@ SDL_Texture *loadText(SDL_Renderer *renderer, TTF_Font *font, std::string text,
 }
 
 TTF_Font *loadFontOrFail(std::string path, int ptsize) {
+  initSDL();
   if (TTF_Init() < 0) {
     printf("Unable to init SDL_ttf! SDL_ttf Error: %s\n", TTF_GetError());
     exit(1);
@@ -101,4 +154,14 @@ TTF_Font *loadFontOrFail(std::string path, int ptsize) {
     exit(1);
   }
   return font;
+}
+
+Mix_Chunk *loadMixerChunkOrFail(std::string path) {
+  initSDL();
+  Mix_Chunk *chunk = Mix_LoadWAV(path.c_str());
+  if (!chunk) {
+    printf("Unable to load mixer chunk! SDL_mixer Error: %s\n", Mix_GetError());
+    exit(1);
+  }
+  return chunk;
 }

@@ -16,24 +16,10 @@
 #include <SDL_mouse.h>
 #include <SDL_timer.h>
 #include <cstdio>
+#include <cstdlib>
 
-int main(int argc, const char *argv[]) {
-  if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO) < 0) {
-    printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
-    exit(1);
-  }
-  if (TTF_Init() < 0) {
-    printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
-    exit(1);
-  }
-  if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) < 0) {
-    printf("SDL_img could not initialize! SDL_img Error: %s\n", IMG_GetError());
-    exit(1);
-  }
-  if (Mix_Init(MIX_INIT_MP3) < 0) {
-    printf("SDL_img could not initialize! SDL_img Error: %s\n", Mix_GetError());
-    exit(1);
-  }
+int main(int argc, const char *argv[]) { 
+  initSDL();
 
   SDL_SetWindowIcon(WINDOW, ICON_SURFACE);
 
@@ -106,8 +92,5 @@ int main(int argc, const char *argv[]) {
   }
 quit:
 
-  IMG_Quit();
-  Mix_Quit();
-  TTF_Quit();
-  SDL_Quit();
+  finalizeSDL();
 }

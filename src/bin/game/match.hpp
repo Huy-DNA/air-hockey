@@ -13,6 +13,7 @@
 #include "state.hpp"
 #include "windbar.hpp"
 #include <SDL_keycode.h>
+#include <SDL_mixer.h>
 #include <SDL_render.h>
 #include <SDL_timer.h>
 #include <array>
