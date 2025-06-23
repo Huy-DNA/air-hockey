@@ -101,25 +101,21 @@ Reflection is based on taking the normal vector of the collided surface right at
 
 ## Remarks
 
-We can see that for some methods, we have to define a version for each moving game object, and all of these somewhat relate to collision detection i.e. `doesCollide`, `cpPuckPosition`, `capBatPosition`. The reason for this is that, some future game objects may have different shapes so defining a single method that would work for any game objects is difficult. Therefore, we opted for this route.
+We can see that for some methods, we have to define a version for each moving game object, and all of these somewhat relate to collision detection i.e. `doesCollide`, `capPuckPosition`, `capBatPosition`. The reason for this is that, some future game objects may have different shapes so defining a single method that would work for any game objects is difficult. Therefore, we opted for this route. For small games like this, doing this is simple and fine. But if there are very many kinds of game objects, this quickly becomes out of hand.
 
-For small games like this, doing this is simple and fine. But if there are very many kinds of game objects, this quickly becomes out of hand.
-
-An idea would be:
+Another idea would be:
 - Each game object defines a method that returns its "collision shape".
 - A centralized function that would detect collision, determine collision point, etc. based on 2 collision shapes.
 
-However, this only solves the collision detection problem, we also need to fix collision: In real life, objects are rarely collided. Therefore, if we detect a collision, we have to adjust the objects a little so that they are not actually collided, to model objects that are pushing each other.
-
+However, this only solves the collision detection problem, we also need to fix collision e.g objects bouncing off each other. Therefore, if we detect a collision, we have to adjust the objects a little so that they are not actually collided, to model objects that are pushing each other.
 
 ### Challenges and workaround
 
 There's a challenge regarding the interaction of 2 game objects colliding but also being bound in the box at the same time.
 
-1. A bat and a puck are colliding each other.
+1. A bat and a puck are colliding with each other.
 2. Collision detected & call fix collide method to make the 2 uncollided.
-3. However, the puck is at the boundary of the box! Call capping method of the box.
+3. However, the puck is at the boundary of the box! Fix it by capping the puck inside the box.
+4. The puck is now inside the box, but because the position of the puck is changed again regardless of the bat, they now actually overlap.
 
-The puck is now inside the box, but because the position of the puck is changed again regardless of the bat, they now actually overlap.
-
-So how do we solve this problem? My work around is to loop the above 3 steps: fixing collision, fixing out of boundary, fixing collision, etc. with hopes that they would reach a consistent state at some point.
+So how do we solve this problem? My workaround is to loop the above 3 steps: fixing collision, fixing out of boundary, fixing collision, etc. with hopes that they would reach a consistent state at some point.
